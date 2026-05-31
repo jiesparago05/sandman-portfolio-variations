@@ -14,6 +14,7 @@ landing page and pick the one that fits the brand best.
 | 2 | **Gallery Editorial** | Light, airy, museum-catalog | `/gallery/` |
 | 3 | **Urban Vinyl** | Bold street / art-toy, neon | `/urban/` |
 | 4 | **Industrial Blueprint** | Raw workshop, blueprint, monospace | `/industrial/` |
+| 5 | **Retro Toybox** | Vintage 70s/80s toy packaging | `/retro/` |
 
 > Variation 1 lives in the main repo: [`sandman-portfolio`](https://github.com/jiesparago05/sandman-portfolio).
 
@@ -24,6 +25,7 @@ index.html              Landing page (compare all 4)
 gallery/index.html      Variation 2 — Gallery Editorial
 urban/index.html        Variation 3 — Urban Vinyl
 industrial/index.html   Variation 4 — Industrial Blueprint
+retro/index.html        Variation 5 — Retro Toybox
 portfolio_materials/    Shared photos & videos
 previews/               Thumbnail screenshots for the landing page
 ```

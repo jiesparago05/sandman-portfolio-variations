@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANDMAN — Custom Toy Artist | Hand-Painted Figures &amp; Collectible Art Models</title>
+  <meta name="description" content="SANDMAN is a Filipino custom toy artist crafting hand-painted figures, repaints, kitbashes, and collectible art models. One-off customs and commissioned builds for serious collectors.">
+  <meta name="author" content="Sandman">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Righteous&family=Fredoka:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!--
+  ============================================================================
+   EDIT ME — quick guide to making this site yours
+  ============================================================================
+   1. SOCIAL / CONTACT LINKS: edit the `SOCIAL` object in the <script> at the
+      bottom (Instagram, Facebook, email, Messenger). Changing them there
+      updates every button on the page automatically.
+   2. PROJECT DETAILS + PHOTOS: edit the `portfolioData` object in the <script>.
+      Lines marked  // REPLACE  are best-guesses — correct them with real info.
+   3. HERO IMAGE/VIDEO: search for "HERO MEDIA" below.
+   4. BEFORE & AFTER photos: search for "REPLACE: before" — drop in your shots.
+   5. ARTIST + WORKSHOP photos: search for "REPLACE: artist photo".
+   All images live in the  ../portfolio_materials/  folder (one level up, since
+   this file lives in a subfolder).
+  ============================================================================
+  -->
+
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Bungee', cursive; line-height: 1.05; letter-spacing: 0.01em; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    section { padding: clamp(60px, 9vw, 120px) 20px; position: relative; }
+    .container { max-width: 1180px; margin: 0 auto; position: relative; z-index: 2; }
+
+    /* === RETRO TOYBOX PALETTE — aged cream / cardstock + warm toy colors === */
+    :root {
+      --paper:    #f2e3c6;   /* aged cream cardstock base */
+      --paper-2:  #ede0c8;   /* alt panel cream */
+      --card:     #fbf2dd;   /* lighter card stock */
+      --ink:      #3a2a1a;   /* deep brown ink/text */
+      --ink-soft: #6e5742;   /* softer brown for body/muted */
+      --mustard:  #e8a020;   /* mustard yellow */
+      --orange:   #d4572a;   /* burnt orange */
+      --teal:     #2a9d8f;   /* retro teal/turquoise */
+      --red:      #c0392b;   /* faded red */
+      --line:     #3a2a1a;   /* chunky outline ink */
+      --border:   rgba(58, 42, 26, 0.25);
+      --border-strong: rgba(58, 42, 26, 0.55);
+    }
+
+    /* === PAPER GRAIN + HALFTONE TEXTURE OVERLAY === */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: none;
+      opacity: 0.5;
+      mix-blend-mode: multiply;
+      background-image:
+        radial-gradient(rgba(58,42,26,0.06) 1px, transparent 1.4px);
+      background-size: 5px 5px;
+    }
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* sunburst ray helper — used behind hero + badges */
+    .sunburst {
+      background-image: repeating-conic-gradient(
+        var(--mustard) 0deg 9deg,
+        transparent 9deg 18deg
+      );
+    }
+
+    /* === SHARED HELPERS === */
+    .eyebrow {
+      font-family: 'Fredoka', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--card);
+      background: var(--orange);
+      padding: 5px 14px;
+      border: 2px solid var(--ink);
+      border-radius: 30px;
+      box-shadow: 3px 3px 0 var(--ink);
+      margin-bottom: 18px;
+      display: inline-block;
+      transform: rotate(-1.5deg);
+    }
+    .section-title {
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      color: var(--ink);
+      margin-bottom: 16px;
+      text-shadow: 3px 3px 0 rgba(232,160,32,0.55);
+      line-height: 1.02;
+    }
+    .section-title .amber { color: var(--orange); }
+    .section-subtitle {
+      color: var(--ink-soft);
+      max-width: 620px;
+      margin-bottom: 56px;
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+    .section-head { margin-bottom: 10px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 30px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 3px solid var(--ink);
+      border-radius: 40px;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
+    .btn-primary {
+      background: var(--mustard);
+      color: var(--ink);
+    }
+    .btn-primary:hover {
+      background: var(--orange);
+      color: var(--card);
+      transform: translate(-1px, -2px);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+    .btn-ghost {
+      background: var(--teal);
+      color: var(--card);
+    }
+    .btn-ghost:hover {
+      background: var(--red);
+      transform: translate(-1px, -2px);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    /* === NAVIGATION — retro cardback header banner === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--mustard);
+      border-bottom: 4px solid var(--ink);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: var(--mustard);
+      box-shadow: 0 5px 0 rgba(58,42,26,0.25);
+    }
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 68px;
+      padding: 0 20px;
+    }
+    .logo {
+      font-family: 'Bungee', cursive;
+      font-size: 1.5rem;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .logo b { color: var(--orange); }
+    .logo .dot { width: 12px; height: 12px; background: var(--red); border: 2px solid var(--ink); border-radius: 50%; display: inline-block; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 22px;
+    }
+    .nav-links a {
+      color: var(--ink);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--card); text-decoration: underline wavy var(--red); }
+    .nav-links .nav-cta {
+      padding: 8px 18px;
+      background: var(--red);
+      color: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 30px;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .nav-links .nav-cta:hover { background: var(--teal); color: var(--card); text-decoration: none; transform: translate(-1px,-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 3px;
+      background: var(--ink);
+      border-radius: 3px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: var(--mustard);
+        border-bottom: 4px solid var(--ink);
+        flex-direction: column;
+        padding: 24px;
+        gap: 18px;
+      }
+      .nav-links.open { display: flex; }
+    }
+
+    /* === HERO — top of a classic toy box === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 110px 20px 70px;
+      position: relative;
+      overflow: hidden;
+      background: var(--paper);
+    }
+    /* giant sunburst behind hero logo */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 42%; left: 28%;
+      width: 1200px; height: 1200px;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      background-image: repeating-conic-gradient(
+        rgba(232,160,32,0.28) 0deg 7deg,
+        rgba(212,87,42,0.10) 7deg 14deg
+      );
+      border-radius: 50%;
+      -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 68%);
+              mask-image: radial-gradient(circle, #000 30%, transparent 68%);
+      animation: spin 90s linear infinite;
+    }
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-copy { max-width: 660px; }
+    .hero-tag {
+      font-family: 'Fredoka', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--card);
+      background: var(--teal);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin-bottom: 24px;
+      display: inline-block;
+      transform: rotate(-1.5deg);
+    }
+    .hero-copy h1 {
+      font-size: clamp(3.2rem, 13vw, 8rem);
+      letter-spacing: 0.01em;
+      margin-bottom: 22px;
+      color: var(--orange);
+      text-shadow:
+        4px 4px 0 var(--ink),
+        7px 7px 0 var(--mustard),
+        10px 10px 0 var(--ink);
+      line-height: 0.95;
+    }
+    .hero-copy h1 .stroke {
+      color: var(--teal);
+    }
+    .hero-lead {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+      color: var(--card);
+      font-weight: 600;
+      margin-bottom: 18px;
+      line-height: 1.3;
+      background: var(--red);
+      border: 3px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: inline-block;
+      transform: rotate(-0.8deg);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+      margin: 24px 0 32px;
+      max-width: 540px;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-stats {
+      display: flex;
+      gap: 14px;
+      margin-top: 46px;
+      flex-wrap: wrap;
+    }
+    .hero-stats .stat {
+      background: var(--card);
+      border: 3px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      border-radius: 10px;
+      padding: 14px 20px;
+      transform: rotate(-1deg);
+    }
+    .hero-stats .stat:nth-child(2) { transform: rotate(1.2deg); }
+    .hero-stats .stat:nth-child(3) { transform: rotate(-0.6deg); }
+    .hero-stats .stat h3 {
+      font-family: 'Bungee', cursive;
+      font-size: 1.7rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .hero-stats .stat p {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      margin-top: 6px;
+    }
+
+    /* hero figure photo in a blister-bubble frame */
+    .hero-figure {
+      position: relative;
+      justify-self: center;
+      width: 100%;
+      max-width: 360px;
+      transform: rotate(2deg);
+    }
+    .hero-figure .blister {
+      border: 5px solid var(--ink);
+      border-radius: 50% 50% 46% 46% / 38% 38% 60% 60%;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(255,255,255,0.5), rgba(42,157,143,0.12));
+      box-shadow: 8px 10px 0 rgba(58,42,26,0.3), inset 0 0 40px rgba(255,255,255,0.4);
+      aspect-ratio: 3 / 4;
+    }
+    .hero-figure .blister img { width: 100%; height: 100%; object-fit: cover; }
+    .starburst-badge {
+      position: absolute;
+      top: -22px; right: -14px;
+      width: 96px; height: 96px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      z-index: 3;
+      filter: drop-shadow(3px 3px 0 rgba(58,42,26,0.45));
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .starburst-badge .burst {
+      position: absolute; inset: 0;
+      background: var(--red);
+      clip-path: polygon(50% 0%,61% 18%,82% 12%,79% 34%,100% 41%,84% 56%,95% 76%,72% 76%,67% 98%,50% 84%,33% 98%,28% 76%,5% 76%,16% 56%,0% 41%,21% 34%,18% 12%,39% 18%);
+    }
+    .starburst-badge span {
+      position: relative; z-index: 2;
+      font-family: 'Bungee', cursive;
+      color: var(--card);
+      font-size: 0.74rem;
+      line-height: 1;
+      padding: 0 6px;
+    }
+    @keyframes pulse { 0%,100% { transform: scale(1) rotate(-8deg);} 50% { transform: scale(1.07) rotate(-8deg);} }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 22px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: var(--ink);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: bob 2.2s infinite;
+    }
+    .scroll-cue svg { width: 22px; height: 22px; stroke: var(--orange); }
+    @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0);} 50% { transform: translateX(-50%) translateY(8px);} }
+
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-figure { display: none; }
+    }
+
+    /* === FEATURED CUSTOMS — vintage action-figure cardbacks === */
+    #customs { background: var(--paper-2); }
+    .customs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .toy-card {
+      background: var(--card);
+      border: 4px solid var(--ink);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 6px 6px 0 rgba(58,42,26,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .toy-card:nth-child(even) { transform: rotate(-0.8deg); }
+    .toy-card:nth-child(3n) { transform: rotate(0.8deg); }
+    .toy-card:hover {
+      transform: translate(-2px, -5px) rotate(0deg);
+      box-shadow: 9px 11px 0 rgba(58,42,26,0.4);
+    }
+    .toy-media {
+      position: relative;
+      height: 290px;
+      overflow: hidden;
+      margin: 12px 12px 0;
+      border: 3px solid var(--ink);
+      border-radius: 50% 50% 14% 14% / 22% 22% 8% 8%;
+      background:
+        repeating-conic-gradient(rgba(42,157,143,0.10) 0deg 9deg, transparent 9deg 18deg),
+        #d9ead2;
+    }
+    .toy-media img, .toy-media video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .toy-card:hover .toy-media img,
+    .toy-card:hover .toy-media video { transform: scale(1.05); }
+
+    /* starburst status stamp */
+    .status {
+      position: absolute;
+      top: -8px; left: -8px;
+      z-index: 3;
+      font-family: 'Bungee', cursive;
+      font-size: 0.62rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      width: 64px; height: 64px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--card);
+      filter: drop-shadow(2px 2px 0 rgba(58,42,26,0.5));
+      transform: rotate(-12deg);
+    }
+    .status::before {
+      content: '';
+      position: absolute; inset: 0;
+      clip-path: polygon(50% 0%,61% 18%,82% 12%,79% 34%,100% 41%,84% 56%,95% 76%,72% 76%,67% 98%,50% 84%,33% 98%,28% 76%,5% 76%,16% 56%,0% 41%,21% 34%,18% 12%,39% 18%);
+      z-index: 0;
+    }
+    .status span { position: relative; z-index: 1; padding: 0 4px; line-height: 0.95; }
+    .status--available::before  { background: var(--teal); }
+    .status--sold::before       { background: var(--red); }
+    .status--commissioned::before { background: var(--orange); }
+    .status--personal::before   { background: var(--mustard); }
+    .status--personal { color: var(--ink); }
+
+    .view-build {
+      position: absolute;
+      bottom: 12px; right: 12px;
+      z-index: 3;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--card);
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 5px 12px;
+      display: flex; align-items: center; gap: 7px;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .view-build svg { width: 14px; height: 14px; stroke: var(--mustard); }
+    .toy-card:hover .view-build { opacity: 1; transform: translateY(0); }
+
+    .toy-body { padding: 18px 20px 24px; }
+    .toy-type {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.74rem;
+      color: var(--card);
+      background: var(--orange);
+      display: inline-block;
+      padding: 3px 12px;
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    /* bold retro nameplate banner */
+    .toy-body h3 {
+      font-size: 1.4rem;
+      color: var(--ink);
+      margin-bottom: 14px;
+      background: var(--mustard);
+      border: 3px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      border-radius: 8px;
+      padding: 8px 12px;
+      line-height: 1.1;
+    }
+    .toy-specs { list-style: none; margin-bottom: 14px; }
+    .toy-specs li {
+      display: flex;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+      padding: 4px 0;
+      border-bottom: 2px dotted var(--border);
+    }
+    .toy-specs li span {
+      color: var(--teal);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.68rem;
+      min-width: 78px;
+      padding-top: 1px;
+    }
+    .toy-desc { font-size: 0.92rem; color: var(--ink-soft); line-height: 1.6; }
+
+    .toy-card.template { border-style: dashed; background: var(--paper); }
+    .toy-card.template .toy-media {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-soft);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 20px;
+      border-style: dashed;
+    }
+
+    @media (max-width: 1024px) { .customs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .customs-grid { grid-template-columns: 1fr; } }
+
+    /* === COLLECTIONS / BUILD TYPES === */
+    #collections { background: var(--paper); }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .collection-tile {
+      background: var(--card);
+      border: 4px solid var(--ink);
+      border-radius: 12px;
+      padding: 26px 24px;
+      box-shadow: 5px 5px 0 rgba(58,42,26,0.28);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+    .collection-tile:nth-child(3n+2) { transform: rotate(-1deg); }
+    .collection-tile:hover {
+      transform: translate(-2px,-4px) rotate(0deg);
+      box-shadow: 8px 9px 0 rgba(58,42,26,0.38);
+      background: var(--mustard);
+    }
+    .collection-tile .ct-icon {
+      font-size: 1.9rem;
+      margin-bottom: 14px;
+      width: 54px; height: 54px;
+      display: grid; place-items: center;
+      background: var(--teal);
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .collection-tile h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .collection-tile p { font-size: 0.9rem; color: var(--ink-soft); font-weight: 500; }
+    @media (max-width: 860px) { .collections-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .collections-grid { grid-template-columns: 1fr; } }
+
+    /* === BEFORE & AFTER === */
+    #before-after { background: var(--paper-2); }
+    .ba-list { display: flex; flex-direction: column; gap: 28px; }
+    .ba-card {
+      background: var(--card);
+      border: 4px solid var(--ink);
+      border-radius: 14px;
+      box-shadow: 6px 6px 0 rgba(58,42,26,0.3);
+      padding: 24px;
+    }
+    .ba-stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .ba-stage { position: relative; }
+    .ba-stage .ba-frame {
+      height: 230px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #d9ead2;
+      border: 3px solid var(--ink);
+    }
+    .ba-stage .ba-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-stage.placeholder .ba-frame {
+      border-style: dashed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 16px;
+      background: var(--paper);
+    }
+    .ba-stage .ba-label {
+      position: absolute;
+      top: 10px; left: 10px;
+      font-family: 'Bungee', cursive;
+      font-size: 0.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 5px 11px;
+      border-radius: 20px;
+      background: var(--orange);
+      color: var(--card);
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .ba-note {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .ba-note .ba-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .ba-note p { font-size: 0.92rem; color: var(--ink-soft); font-weight: 500; }
+    .ba-note .ba-arrow { color: var(--red); font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      .ba-stages { grid-template-columns: 1fr; }
+      .ba-stage .ba-frame { height: 200px; }
+    }
+
+    /* === COMMISSION PROCESS === */
+    #process { background: var(--paper); }
+    .process-wrap { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 820px; }
+    .step {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 22px;
+      padding: 20px 0;
+      border-bottom: 3px dashed var(--border);
+      align-items: start;
+    }
+    .step:last-of-type { border-bottom: none; }
+    .step .step-num {
+      font-family: 'Bungee', cursive;
+      font-size: 1.5rem;
+      color: var(--card);
+      background: var(--teal);
+      width: 60px; height: 60px;
+      display: grid; place-items: center;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 3px 3px 0 var(--ink);
+      line-height: 1;
+    }
+    .step:nth-child(even) .step-num { background: var(--orange); }
+    .step h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+    .step p { font-size: 0.94rem; color: var(--ink-soft); font-weight: 500; }
+    .process-cta { margin-top: 40px; }
+    @media (max-width: 540px) {
+      .step { grid-template-columns: 56px 1fr; gap: 16px; }
+      .step .step-num { width: 48px; height: 48px; font-size: 1.2rem; }
+    }
+
+    /* === ABOUT === */
+    #about { background: var(--paper-2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 54px;
+      align-items: center;
+    }
+    .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-photos .ph {
+      border-radius: 12px;
+      border: 4px solid var(--ink);
+      background: var(--card);
+      box-shadow: 5px 5px 0 rgba(58,42,26,0.3);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 14px;
+      overflow: hidden;
+    }
+    .about-photos .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photos .ph:first-child { transform: rotate(-2deg); }
+    .about-photos .ph.tall { margin-top: 28px; transform: rotate(2deg); }
+    .about-text h2 { font-size: clamp(2rem, 5vw, 3.2rem); color: var(--ink); margin-bottom: 20px; text-shadow: 3px 3px 0 rgba(232,160,32,0.55); }
+    .about-text p { margin-bottom: 16px; color: var(--ink-soft); line-height: 1.8; font-weight: 500; }
+    .about-text .highlight { color: var(--orange); font-weight: 700; }
+    .about-meta {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .about-meta .am-block {
+      background: var(--card);
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 14px 16px;
+    }
+    .about-meta .am-block h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.76rem;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+    .about-meta .am-block p { font-size: 0.88rem; color: var(--ink-soft); margin: 0; font-weight: 500; }
+    .about-socials { display: flex; gap: 14px; margin-top: 26px; }
+    .about-socials a {
+      width: 46px; height: 46px;
+      border: 3px solid var(--ink);
+      background: var(--mustard);
+      border-radius: 50%;
+      box-shadow: 3px 3px 0 var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .about-socials a:hover { background: var(--teal); transform: translate(-1px,-3px); }
+    .about-socials svg { width: 20px; height: 20px; fill: var(--ink); transition: fill 0.2s; }
+    .about-socials a:hover svg { fill: var(--card); }
+    @media (max-width: 820px) {
+      .about-grid { grid-template-columns: 1fr; gap: 34px; }
+      .about-photos { max-width: 420px; }
+    }
+
+    /* === CONTACT === */
+    #contact { background: var(--paper); }
+    .contact-grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 50px; }
+    .commission-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      background: var(--card);
+      border: 4px solid var(--ink);
+      border-radius: 14px;
+      box-shadow: 6px 6px 0 rgba(58,42,26,0.3);
+      padding: 26px;
+    }
+    .commission-form .full { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.72rem;
+      color: var(--teal);
+      margin-bottom: 7px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #a08a72; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 4px 4px 0 var(--mustard);
+    }
+    .field textarea { resize: vertical; min-height: 120px; }
+    .field select { appearance: none; cursor: pointer; }
+    .form-note { font-size: 0.82rem; color: var(--ink-soft); font-weight: 500; }
+    .commission-form .submit-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+    .contact-side h3 {
+      font-family: 'Bungee', cursive;
+      font-size: 1.4rem;
+      color: var(--ink);
+      margin-bottom: 14px;
+      text-shadow: 2px 2px 0 rgba(232,160,32,0.6);
+    }
+    .contact-side > p { color: var(--ink-soft); margin-bottom: 26px; font-size: 0.96rem; font-weight: 500; }
+    .contact-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .contact-links li a {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 4px 4px 0 rgba(58,42,26,0.28);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .contact-links li a:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(58,42,26,0.4); }
+    .contact-links svg { width: 24px; height: 24px; fill: var(--orange); flex-shrink: 0; }
+    .contact-links .cl-label {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.66rem;
+      color: var(--teal);
+      display: block;
+    }
+    .contact-links .cl-val { color: var(--ink); font-size: 0.94rem; font-weight: 600; }
+    .slots-banner {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 5px 5px 0 var(--ink);
+      background: var(--red);
+      transform: rotate(-1deg);
+    }
+    .slots-banner strong { color: var(--card); font-family: 'Bungee', cursive; font-size: 0.95rem; letter-spacing: 0.02em; }
+    .slots-banner p { font-size: 0.88rem; color: var(--card); margin-top: 6px; font-weight: 500; }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 480px) {
+      .commission-form { grid-template-columns: 1fr; }
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--mustard);
+      border-top: 4px solid var(--ink);
+      padding: 50px 20px 34px;
+    }
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-brand .logo { font-size: 1.4rem; margin-bottom: 8px; }
+    .footer-brand p { font-size: 0.86rem; color: var(--ink); font-weight: 500; max-width: 320px; }
+    .footer-socials { display: flex; gap: 14px; }
+    .footer-socials a {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 3px solid var(--ink);
+      background: var(--card);
+      box-shadow: 3px 3px 0 var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .footer-socials a:hover { background: var(--red); transform: translate(-1px,-3px); }
+    .footer-socials svg { width: 18px; height: 18px; fill: var(--ink); transition: fill 0.2s; }
+    .footer-socials a:hover svg { fill: var(--card); }
+    .footer-bottom {
+      max-width: 1180px;
+      margin: 32px auto 0;
+      padding-top: 22px;
+      border-top: 3px dashed var(--border-strong);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* === MODAL / LIGHTBOX === */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 2000;
+      background: rgba(58, 42, 26, 0.78);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card);
+      border: 5px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.35);
+      max-width: 960px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 14px;
+      font-size: 1.6rem;
+      color: var(--card);
+      cursor: pointer;
+      background: var(--red);
+      border: 3px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      z-index: 10;
+      line-height: 1;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .modal-close:hover { background: var(--ink); transform: rotate(90deg); }
+    .modal-carousel {
+      position: relative;
+      background: #d9ead2;
+      border-bottom: 4px solid var(--ink);
+      overflow: hidden;
+    }
+    .modal-carousel img, .modal-carousel video {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      display: none;
+    }
+    .modal-carousel img.active, .modal-carousel video.active { display: block; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--mustard);
+      border: 3px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      color: var(--ink);
+      font-size: 1.2rem;
+      padding: 12px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 5;
+    }
+    .carousel-btn:hover { background: var(--orange); color: var(--card); }
+    .carousel-btn.prev { left: 12px; border-radius: 40px; }
+    .carousel-btn.next { right: 12px; border-radius: 40px; }
+    .carousel-dots { text-align: center; padding: 12px; background: var(--mustard); border-bottom: 4px solid var(--ink); }
+    .carousel-dots span {
+      display: inline-block;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      margin: 0 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-dots span.active { background: var(--red); }
+    .modal-body { padding: 24px 28px 30px; }
+    .modal-body .toy-type { margin-bottom: 8px; }
+    .modal-body h3 {
+      font-size: 1.7rem;
+      color: var(--ink);
+      margin-bottom: 16px;
+      background: var(--mustard);
+      border: 3px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: inline-block;
+    }
+    .modal-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 24px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 3px dashed var(--border);
+    }
+    .modal-specs .ms-row { display: flex; gap: 10px; font-size: 0.9rem; }
+    .modal-specs .ms-row span {
+      color: var(--teal);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.72rem;
+      min-width: 70px;
+      padding-top: 2px;
+    }
+    .modal-specs .ms-row .ms-val { color: var(--ink); font-weight: 600; }
+    .modal-body p.modal-desc { color: var(--ink-soft); line-height: 1.8; font-weight: 500; }
+    @media (max-width: 768px) {
+      .modal { max-height: 94vh; }
+      .modal-carousel img, .modal-carousel video { max-height: 320px; }
+      .modal-specs { grid-template-columns: 1fr; }
+    }
+
+    /* === FOCUS STYLES (accessibility) === */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    select:focus-visible, textarea:focus-visible, .toy-card:focus-visible {
+      outline: 3px dashed var(--red);
+      outline-offset: 3px;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-cue, #hero::before, .starburst-badge { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- ====================== NAVIGATION ====================== -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="logo"><span class="dot"></span>SAND<b>MAN</b></a>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#customs">Customs</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#before-after">Before / After</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Start a Commission</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====================== HERO ====================== -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-tag">Sandman Workshop · Custom Toy Artist</p>
+        <h1>SAND<span class="stroke">MAN</span></h1>
+        <p class="hero-lead">Custom figures built from dreams, dust, paint, and plastic.</p>
+        <p class="hero-sub">Hand-painted one-off customs, repaints, and kitbashed figures — turning ordinary models into display-ready collector pieces from the Sandman workshop.</p>
+        <div class="hero-ctas">
+          <a href="#customs" class="btn btn-primary">View Customs</a>
+          <a href="#contact" class="btn btn-ghost">Start a Commission</a>
+          <a href="#" class="btn btn-ghost" data-social="instagram" target="_blank" rel="noopener">Follow on Instagram</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><h3>100%</h3><p>Hand-Painted</p></div>
+          <div class="stat"><h3>1-of-1</h3><p>Every Build</p></div>
+          <div class="stat"><h3>Open</h3><p>For Commissions</p></div>
+        </div>
+      </div>
+
+      <!-- HERO MEDIA — swap the <img> src for your best shot. Paths are one level
+           up (../) because this file lives in a subfolder. For a video loop use:
+           <video autoplay muted loop playsinline
+                  src="../portfolio_materials/vids/Custom KAIZER.mp4"></video> -->
+      <div class="hero-figure">
+        <div class="starburst-badge"><span class="burst"></span><span>1-OF-1!</span></div>
+        <div class="blister">
+          <img src="../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg" alt="Featured custom figure by Sandman"><!-- REPLACE: hero image -->
+        </div>
+      </div>
+    </div>
+    <a href="#customs" class="scroll-cue">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M7 10l5 5 5-5"/></svg>
+    </a>
+  </section>
+
+  <!-- ====================== FEATURED CUSTOMS ====================== -->
+  <section id="customs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Collection</span>
+        <h2 class="section-title">Featured <span class="amber">Customs</span></h2>
+        <p class="section-subtitle">One-off builds, repaints, and kitbashes — each piece documented and display-ready. Tap any figure to view the full build gallery.</p>
+      </div>
+      <div class="customs-grid" id="customsGrid">
+        <!-- Cards are rendered from `portfolioData` by the script below. -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COLLECTIONS / BUILD TYPES ====================== -->
+  <section id="collections">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What I Build</span>
+        <h2 class="section-title">Collections &amp; <span class="amber">Build Types</span></h2>
+        <p class="section-subtitle">From mecha repaints to full scratch builds — the kinds of work that come out of the Sandman workshop.</p>
+      </div>
+      <div class="collections-grid">
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🤖</div><h3>Mecha Customs</h3><p>Gundam, mechs, and robot figures with clean panel work and battle-worn detailing.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🎭</div><h3>Character Customs</h3><p>One-of-a-kind character figures — repurposed, repainted, and brought to life.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🎨</div><h3>Repaints</h3><p>Full strip-and-repaint work — from bare primer to display-grade finishes.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🛠️</div><h3>Kitbash Builds</h3><p>Parts from many figures fused into a single original, never-seen-before piece.</p></a>
+        <a href="#contact" class="collection-tile reveal"><div class="ct-icon">📦</div><h3>Commissioned Works</h3><p>Built to your vision — your figure, your character, your dream design.</p></a>
+        <a href="#before-after" class="collection-tile reveal"><div class="ct-icon">⏳</div><h3>Work-in-Progress</h3><p>Restorations and in-progress builds — follow a figure's transformation.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== BEFORE & AFTER ====================== -->
+  <section id="before-after">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Transformation</span>
+        <h2 class="section-title">Before &amp; <span class="amber">After</span></h2>
+        <p class="section-subtitle">Collectors love the journey. Here's how a stock figure becomes a one-off collector piece — from original, to work-in-progress, to final custom.</p>
+      </div>
+      <div class="ba-list">
+
+        <!-- BEFORE/AFTER ITEM 1 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Mego RX-78.jpg" alt="Final custom Mego RX-78"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">➜</span>
+            <div>
+              <div class="ba-title">Mego RX-78 — Primer to Display-Ready</div>
+              <p>Stripped to bare plastic, primed, then hand-airbrushed with the classic RX-78 color scheme. Panel lining and a protective topcoat finish the piece. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEFORE/AFTER ITEM 2 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg" alt="Final custom Reaver"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">➜</span>
+            <div>
+              <div class="ba-title">Custom Reaver — Full Character Repaint</div>
+              <p>Repainted from the base figure into a high-contrast custom with gloss and matte detailing across the jacket, limbs, and weapons. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COMMISSION PROCESS ====================== -->
+  <section id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How It Works</span>
+        <h2 class="section-title">The Commission <span class="amber">Process</span></h2>
+        <p class="section-subtitle">A clear, collaborative process from first idea to finished figure — with progress updates at every stage.</p>
+      </div>
+      <div class="process-wrap">
+        <div class="step reveal"><div class="step-num">01</div><div><h3>Send Your Idea</h3><p>Share your concept and reference photos — the figure, the character, the look you're after.</p></div></div>
+        <div class="step reveal"><div class="step-num">02</div><div><h3>Review &amp; Assessment</h3><p>I review the figure, scale, and complexity to scope out exactly what the build will take.</p></div></div>
+        <div class="step reveal"><div class="step-num">03</div><div><h3>Quote &amp; Timeline</h3><p>You get a clear quotation and an estimated timeline before any work begins.</p></div></div>
+        <div class="step reveal"><div class="step-num">04</div><div><h3>Down Payment</h3><p>A down payment confirms your build slot and locks in the schedule.</p></div></div>
+        <div class="step reveal"><div class="step-num">05</div><div><h3>Work-in-Progress Updates</h3><p>I send progress photos throughout so you're part of the build the whole way.</p></div></div>
+        <div class="step reveal"><div class="step-num">06</div><div><h3>Final Photos &amp; Approval</h3><p>Final showcase photos for your approval before the piece is sealed and finished.</p></div></div>
+        <div class="step reveal"><div class="step-num">07</div><div><h3>Pickup, Delivery or Shipping</h3><p>Carefully packed and handed off — local pickup, delivery, or safe shipping.</p></div></div>
+      </div>
+      <div class="process-cta reveal">
+        <a href="#contact" class="btn btn-primary">Request a Custom Build</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== ABOUT THE ARTIST ====================== -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photos reveal">
+          <div class="ph"><!-- REPLACE: artist photo -->Artist<br>Photo</div>
+          <div class="ph tall"><!-- REPLACE: workshop photo -->Workshop<br>Photo</div>
+        </div>
+        <div class="about-text reveal">
+          <span class="eyebrow">The Artist</span>
+          <h2>About <span style="color:var(--orange)">Sandman</span></h2>
+          <p>Sandman is a Filipino custom toy artist focused on <span class="highlight">hand-painted figures, kitbashes, repaints, and collectible art models</span>. His work combines model-making, airbrush painting, detailing, and character customization to turn ordinary figures into one-of-a-kind collector pieces.</p>
+          <p>Every build starts with a conversation — your vision, your favorite character, your dream design — and ends with a display-ready piece made to last. No two customs are ever the same.</p>
+          <div class="about-meta">
+            <div class="am-block">
+              <h4>Signature Style</h4>
+              <p>Clean color separation, weathered detailing, and a collector-grade finish on every piece.</p>
+            </div>
+            <div class="am-block">
+              <h4>Tools &amp; Materials</h4>
+              <p>Airbrush &amp; acrylics, hand-detailing, panel lining, primers and protective topcoats.</p>
+            </div>
+          </div>
+          <div class="about-socials">
+            <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+            <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+            <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACT / COMMISSION INQUIRY ====================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Start a Commission</span>
+        <h2 class="section-title">Request a <span class="amber">Custom Build</span></h2>
+        <p class="section-subtitle">Tell me about your figure and your vision. The more detail and reference you share, the more accurate your quote.</p>
+      </div>
+      <div class="contact-grid">
+        <!-- Commission form. Uses mailto: so it works on GitHub Pages with no backend.
+             To collect submissions properly later, swap the action for a Formspree
+             endpoint:  action="https://formspree.io/f/yourID" method="POST"  -->
+        <form class="commission-form reveal" id="commissionForm" method="POST" enctype="text/plain">
+          <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+          <div class="field"><label>Email or Messenger</label><input type="text" name="contact" placeholder="you@email.com / m.me link" required></div>
+          <div class="field"><label>Type of Commission</label>
+            <select name="commission_type">
+              <option>Repaint</option>
+              <option>Kitbash Build</option>
+              <option>Full Custom Build</option>
+              <option>Mecha Custom</option>
+              <option>Character Custom</option>
+              <option>Figure Restoration</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label>Figure / Model to Customize</label><input type="text" name="figure" placeholder="e.g. Mego RX-78, 1/144 Gundam"></div>
+          <div class="field"><label>Budget Range</label><input type="text" name="budget" placeholder="e.g. ₱2,000 – ₱5,000"></div>
+          <div class="field"><label>Deadline / Target Date</label><input type="text" name="deadline" placeholder="e.g. before December, flexible"></div>
+          <div class="field full"><label>Reference Images</label><input type="text" name="references" placeholder="Paste links to reference photos (or mention you'll send them via Messenger)"></div>
+          <div class="field full"><label>Additional Notes</label><textarea name="notes" placeholder="Describe your vision — colors, style, character, finish, anything else I should know."></textarea></div>
+          <div class="full submit-row">
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <span class="form-note">Opens your email app · or reach me directly →</span>
+          </div>
+        </form>
+
+        <div class="contact-side reveal">
+          <h3>Let's Connect</h3>
+          <p>Questions about a custom project, or want to see more work? Reach out on any channel.</p>
+          <ul class="contact-links">
+            <li><a href="#" data-social="email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span><span class="cl-label">Email</span><span class="cl-val" data-social-text="email">your@email.com</span></span></a></li>
+            <li><a href="#" data-social="messenger" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.36 2 1.69 6.03 1.69 11.05c0 2.84 1.42 5.37 3.63 7.02v3.43l3.27-1.8c.87.24 1.8.37 2.76.37 5.64 0 10.22-4.03 10.22-9.02S17.64 2 12 2zm1.07 12.15l-2.6-2.77-5.08 2.77 5.58-5.92 2.67 2.77 5.01-2.77-5.58 5.92z"/></svg><span><span class="cl-label">Messenger</span><span class="cl-val">Message me on Facebook</span></span></a></li>
+            <li><a href="#" data-social="instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg><span><span class="cl-label">Instagram</span><span class="cl-val" data-social-text="instagram">@sandman.customs</span></span></a></li>
+            <li><a href="#" data-social="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg><span><span class="cl-label">Facebook</span><span class="cl-val">Sandman Workshop</span></span></a></li>
+          </ul>
+          <div class="slots-banner">
+            <strong>LIMITED BUILD SLOTS</strong>
+            <p>Commissions open in small batches to keep every piece collector-grade. Reserve early.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><span class="dot"></span>SAND<b>MAN</b></div>
+        <p>Hand-painted custom figures and collectible art models from the Sandman workshop.</p>
+      </div>
+      <div class="footer-socials">
+        <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+        <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+        <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Sandman Workshop. All customs are one-off, hand-painted collector pieces.</div>
+  </footer>
+
+  <!-- ====================== MODAL / LIGHTBOX ====================== -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      <div class="modal-carousel" id="modalCarousel">
+        <button class="carousel-btn prev" onclick="carouselNav(-1)" aria-label="Previous">&#10094;</button>
+        <button class="carousel-btn next" onclick="carouselNav(1)" aria-label="Next">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="modal-body">
+        <div class="toy-type" id="modalType"></div>
+        <h3 id="modalTitle"></h3>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       SOCIAL / CONTACT LINKS — single source of truth.
+       Edit these once and every button/link on the page updates.
+       ========================================================================= */
+    const SOCIAL = {
+      instagram: 'https://instagram.com/yourpage',   // REPLACE
+      facebook:  'https://facebook.com/yourpage',     // REPLACE
+      messenger: 'https://m.me/yourpage',             // REPLACE
+      email:     'your@email.com',                    // REPLACE
+      instagramHandle: '@sandman.customs'             // REPLACE — display text only
+    };
+
+    /* =========================================================================
+       PROJECT DATA — your customs.
+       Fields:  title, type, base, scale, materials, status, desc, media[]
+       status:  'available' | 'sold' | 'commissioned' | 'personal'
+       Lines marked  // REPLACE  are best-guesses — correct with real details.
+       To ADD a piece: copy a block, give it a new key, drop photos in
+       ../portfolio_materials/ and point `media` at them.
+       ========================================================================= */
+    const portfolioData = {
+      mego: {
+        title: 'Custom Mego RX-78',
+        type: 'Full Repaint · Mecha Custom',
+        base: 'Mego RX-78 Gundam',
+        scale: '8-inch (Mego scale)',        // REPLACE if different
+        materials: 'Acrylic paint, airbrush, panel lining, topcoat',
+        status: 'personal',
+        desc: 'A hand-painted RX-78 custom transformed from bare primer gray to a clean, mecha-inspired finish with panel lining and a collector-style display presentation.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78(2).jpg' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78.mp4' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78(2).mp4' },
+        ]
+      },
+      reaver: {
+        title: 'Custom Reaver',
+        type: 'Custom Repaint · Character Custom',
+        base: 'Reaver figure',               // REPLACE with exact base figure
+        scale: '~7-inch',                     // REPLACE
+        materials: 'Acrylic paint, airbrush, gloss & matte topcoat, hand detailing',
+        status: 'personal',
+        desc: 'A detailed character custom with a striking red jacket, mechanical prosthetic limbs, and a dual-blade weapon system. Gloss and matte finishes play organic against mechanical.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(1).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(3).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(4).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(5).jpg' },
+        ]
+      },
+      kaizer: {
+        title: 'Custom KAIZER',
+        type: 'Full Custom Build',
+        base: 'Kitbashed build',             // REPLACE with base parts/figure
+        scale: '~12-inch',                    // REPLACE
+        materials: 'Mixed media, airbrush, hand detailing, topcoat',  // REPLACE
+        status: 'commissioned',               // REPLACE if not commissioned
+        desc: 'A full custom build showcased in a turntable video — spin through it to catch the detail work from every angle.',
+        media: [
+          { type: 'video', src: '../portfolio_materials/vids/Custom KAIZER.mp4' },
+        ]
+      },
+      megazord: {
+        title: 'Custom Mego Megazord',
+        type: 'Repaint · Mecha Custom',
+        base: 'Mego Megazord 12"',
+        scale: '12-inch',
+        materials: 'Acrylic paint, airbrush, panel work, topcoat',  // REPLACE
+        status: 'personal',
+        desc: 'A 12-inch Mego Megazord given the full custom treatment — hand-painted detailing, panel work, and clean color separation that bring this classic mech to life from every angle.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/mega_front.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008070.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008071.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008073.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008076.jpg' },
+        ]
+      },
+
+      /* ---- TEMPLATE CARD — copy this, rename the key, add your photos ---- */
+      template1: {
+        template: true,
+        title: 'Your Next Custom',
+        type: 'Kitbash / Repaint / Custom Build',
+        base: 'Base figure here',
+        scale: 'Scale / size',
+        materials: 'Paints, tools, finishes used',
+        status: 'available',
+        desc: 'Short collector-style description of the build goes here. Replace this whole block with a real piece.',
+        media: []  // add { type:'image', src:'../portfolio_materials/img/your-photo.jpg' }
+      },
+      template2: {
+        template: true,
+        title: 'Commission Slot Open',
+        type: 'Commissioned Build',
+        base: 'Your figure',
+        scale: 'Any scale',
+        materials: 'Built to spec',
+        status: 'available',
+        desc: 'Reserve a build slot — your figure, your character, your vision. Replace with a finished commission once complete.',
+        media: []
+      }
+    };
+
+    const STATUS_LABEL = {
+      available: 'Available',
+      sold: 'Sold',
+      commissioned: 'Commissioned',
+      personal: 'Personal Work'
+    };
+
+    /* short starburst-stamp labels (kept compact so the stamp reads cleanly) */
+    const STATUS_STAMP = {
+      available: 'NEW!',
+      sold: 'SOLD',
+      commissioned: 'MADE TO ORDER',
+      personal: 'COLLECTOR SERIES'
+    };
+
+    /* ---------- Apply social links from the SOCIAL object ---------- */
+    function hrefFor(key) {
+      if (key === 'email') return 'mailto:' + SOCIAL.email;
+      if (key === 'messenger') return SOCIAL.messenger;
+      return SOCIAL[key] || '#';
+    }
+    document.querySelectorAll('[data-social]').forEach(el => {
+      el.setAttribute('href', hrefFor(el.getAttribute('data-social')));
+    });
+    document.querySelectorAll('[data-social-text]').forEach(el => {
+      const k = el.getAttribute('data-social-text');
+      el.textContent = k === 'email' ? SOCIAL.email : SOCIAL.instagramHandle;
+    });
+
+    /* ---------- Commission form → mailto ---------- */
+    const cForm = document.getElementById('commissionForm');
+    if (cForm) {
+      cForm.setAttribute('action', 'mailto:' + SOCIAL.email);
+      cForm.addEventListener('submit', () => {
+        // mailto handles the rest; subject line for convenience
+        cForm.setAttribute('action', 'mailto:' + SOCIAL.email + '?subject=Custom%20Build%20Inquiry');
+      });
+    }
+
+    /* ---------- Render the Featured Customs cards ---------- */
+    function statusBadge(status) {
+      const label = STATUS_STAMP[status] || STATUS_LABEL[status] || 'Personal Work';
+      return `<span class="status status--${status}" title="${STATUS_LABEL[status] || ''}"><span>${label}</span></span>`;
+    }
+    function renderCards() {
+      const grid = document.getElementById('customsGrid');
+      grid.innerHTML = Object.keys(portfolioData).map(id => {
+        const p = portfolioData[id];
+        if (p.template) {
+          return `
+          <div class="toy-card template reveal" onclick="openModal('${id}')" tabindex="0" role="button" aria-label="${p.title}">
+            <div class="toy-media">${statusBadge(p.status)}＋ Add your custom here</div>
+            <div class="toy-body">
+              <div class="toy-type">${p.type}</div>
+              <h3>${p.title}</h3>
+              <p class="toy-desc">${p.desc}</p>
+            </div>
+          </div>`;
+        }
+        const first = p.media[0];
+        const thumb = first && first.type === 'video'
+          ? `<video src="${first.src}" muted playsinline preload="metadata"></video>`
+          : `<img src="${first ? first.src : ''}" alt="${p.title}">`;
+        return `
+        <div class="toy-card reveal" onclick="openModal('${id}')" tabindex="0" role="button" aria-label="${p.title}">
+          <div class="toy-media">
+            ${statusBadge(p.status)}
+            ${thumb}
+            <span class="view-build">View Build
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="toy-body">
+            <div class="toy-type">${p.type}</div>
+            <h3>${p.title}</h3>
+            <ul class="toy-specs">
+              <li><span>Base</span>${p.base}</li>
+              <li><span>Scale</span>${p.scale}</li>
+              <li><span>Materials</span>${p.materials}</li>
+            </ul>
+            <p class="toy-desc">${p.desc}</p>
+          </div>
+        </div>`;
+      }).join('');
+      // observe the freshly-rendered cards for scroll reveal
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+      // keyboard activation for cards
+      grid.querySelectorAll('.toy-card').forEach(card => {
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+        });
+      });
+    }
+
+    /* ---------- Modal / carousel ---------- */
+    let currentSlide = 0;
+    let currentMedia = [];
+
+    function openModal(projectId) {
+      const project = portfolioData[projectId];
+      if (!project) return;
+
+      document.getElementById('modalType').textContent = project.type || '';
+      document.getElementById('modalTitle').textContent = project.title;
+      document.getElementById('modalDesc').textContent = project.desc;
+
+      // Specs
+      const specs = [
+        ['Base', project.base],
+        ['Scale', project.scale],
+        ['Materials', project.materials],
+        ['Status', STATUS_LABEL[project.status] || '']
+      ].filter(r => r[1]);
+      document.getElementById('modalSpecs').innerHTML = specs.map(
+        r => `<div class="ms-row"><span>${r[0]}</span><span class="ms-val">${r[1]}</span></div>`
+      ).join('');
+
+      const carousel = document.getElementById('modalCarousel');
+      carousel.querySelectorAll('img, video').forEach(el => el.remove());
+
+      currentMedia = project.media || [];
+      currentSlide = 0;
+
+      const dotsContainer = document.getElementById('carouselDots');
+      dotsContainer.innerHTML = '';
+
+      if (currentMedia.length === 0) {
+        const ph = document.createElement('img');
+        ph.alt = 'No photos yet';
+        ph.src = 'data:image/svg+xml,' + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'><rect width='100%' height='100%' fill='%23d9ead2'/><text x='50%' y='50%' fill='%233a2a1a' font-family='sans-serif' font-size='22' text-anchor='middle'>Add photos to this build</text></svg>");
+        ph.classList.add('active');
+        carousel.insertBefore(ph, carousel.querySelector('.carousel-btn.prev'));
+      }
+
+      currentMedia.forEach((item, i) => {
+        let el;
+        if (item.type === 'image') {
+          el = document.createElement('img');
+          el.src = item.src; el.alt = project.title;
+        } else {
+          el = document.createElement('video');
+          el.src = item.src; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+        }
+        if (i === 0) el.classList.add('active');
+        carousel.insertBefore(el, carousel.querySelector('.carousel-btn.prev'));
+
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      const showNav = currentMedia.length > 1;
+      carousel.querySelectorAll('.carousel-btn').forEach(btn => btn.style.display = showNav ? 'block' : 'none');
+
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('#modalCarousel video').forEach(v => v.pause());
+    }
+
+    function goToSlide(index) {
+      const carousel = document.getElementById('modalCarousel');
+      const items = carousel.querySelectorAll('img, video');
+      const dots = document.querySelectorAll('#carouselDots span');
+      if (!items.length) return;
+
+      if (items[currentSlide] && items[currentSlide].tagName === 'VIDEO') items[currentSlide].pause();
+      items[currentSlide].classList.remove('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+
+      currentSlide = index;
+      if (currentSlide >= items.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = items.length - 1;
+
+      items[currentSlide].classList.add('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
+    function carouselNav(dir) { goToSlide(currentSlide + dir); }
+
+    /* ---------- Nav: hamburger + scrolled state + active link ---------- */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+    }));
+
+    const nav = document.getElementById('nav');
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current && !link.classList.contains('nav-cta'));
+      });
+    });
+
+    /* ---------- Keyboard controls ---------- */
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('modal').classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') carouselNav(-1);
+      if (e.key === 'ArrowRight') carouselNav(1);
+    });
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Init ---------- */
+    renderCards();
+  </script>
+</body>
+</html>
