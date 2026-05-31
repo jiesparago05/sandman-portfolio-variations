@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANDMAN — Custom Toy Artist | Hand-Painted Figures &amp; Collectible Art Models</title>
+  <meta name="description" content="SANDMAN is a Filipino custom toy artist crafting hand-painted figures, repaints, kitbashes, and collectible art models. One-off customs and commissioned builds for serious collectors.">
+  <meta name="author" content="Sandman">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!--
+  ============================================================================
+   EDIT ME — quick guide to making this site yours
+  ============================================================================
+   1. SOCIAL / CONTACT LINKS: edit the `SOCIAL` object in the <script> at the
+      bottom (Instagram, Facebook, email, Messenger). Changing them there
+      updates every button on the page automatically.
+   2. PROJECT DETAILS + PHOTOS: edit the `portfolioData` object in the <script>.
+      Lines marked  // REPLACE  are best-guesses — correct them with real info.
+   3. HERO IMAGE/VIDEO: search for "HERO MEDIA" below.
+   4. BEFORE & AFTER photos: search for "REPLACE: before" — drop in your shots.
+   5. ARTIST + WORKSHOP photos: search for "REPLACE: artist photo".
+   All images live in the  ../portfolio_materials/  folder (one level up).
+  ============================================================================
+  -->
+
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Anton', sans-serif; letter-spacing: 0.01em; font-weight: 400; line-height: 0.95; text-transform: uppercase; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    section { padding: clamp(64px, 9vw, 130px) 20px; position: relative; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* === COLOR PALETTE — electric cyan + hot magenta on charcoal === */
+    :root {
+      --bg:       #141414;   /* off-black base */
+      --bg2:      #0e0e0e;   /* deeper black */
+      --surface:  #1c1c1c;   /* cards */
+      --raised:   #242424;   /* raised panels */
+      --text:     #f5f5f5;   /* near-white */
+      --muted:    #9a9a9a;   /* grey */
+      --cyan:     #00e0c6;   /* electric cyan/teal */
+      --pink:     #ff2e88;   /* hot magenta */
+      --yellow:   #ffe600;   /* pop yellow accent */
+      --ink:      #0a0a0a;   /* hard outline ink */
+      --border:   rgba(255,255,255,0.10);
+    }
+
+    ::selection { background: var(--pink); color: #fff; }
+
+    /* === HALFTONE / NOISE TEXTURE OVERLAY === */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: none;
+      opacity: 0.5;
+      background-image: radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1.4px);
+      background-size: 5px 5px;
+    }
+
+    /* === MARQUEE TICKER === */
+    .marquee {
+      background: var(--cyan);
+      color: var(--ink);
+      border-top: 3px solid var(--ink);
+      border-bottom: 3px solid var(--ink);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 11px 0;
+      position: relative;
+      z-index: 5;
+    }
+    .marquee.alt { background: var(--pink); color: #fff; transform: rotate(-1.4deg); margin: -10px 0; }
+    .marquee__track {
+      display: inline-block;
+      will-change: transform;
+      animation: marquee 26s linear infinite;
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.95rem;
+    }
+    .marquee__track span { padding: 0 14px; }
+    .marquee__track .star { color: var(--ink); }
+    .marquee.alt .marquee__track .star { color: var(--yellow); }
+    .marquee:hover .marquee__track { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* === SHARED HELPERS === */
+    .eyebrow {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: var(--ink);
+      background: var(--yellow);
+      padding: 6px 12px;
+      margin-bottom: 18px;
+      display: inline-block;
+      transform: rotate(-2deg);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--pink);
+    }
+    .section-title {
+      font-size: clamp(2.8rem, 8vw, 5.6rem);
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: 0.005em;
+      line-height: 0.9;
+    }
+    .section-title .pop { color: var(--cyan); }
+    .section-title .pink {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--pink);
+      text-stroke: 2px var(--pink);
+    }
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 56px;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+    .section-head { margin-bottom: 14px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      font-family: 'Archivo Black', sans-serif;
+      font-weight: 400;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+    }
+    .btn-primary:hover {
+      background: var(--pink);
+      color: #fff;
+      transform: translate(-2px,-2px);
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+    .btn-ghost {
+      background: var(--text);
+      color: var(--ink);
+      box-shadow: 5px 5px 0 var(--pink);
+    }
+    .btn-ghost:hover {
+      background: var(--yellow);
+      transform: translate(-2px,-2px);
+      box-shadow: 8px 8px 0 var(--pink);
+    }
+    .btn-ghost:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--pink); }
+    .btn:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--yellow);
+      outline-offset: 3px;
+    }
+
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(20,20,20,0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(14,14,14,0.96);
+      border-bottom: 3px solid var(--cyan);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+      padding: 0 20px;
+    }
+    .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.85rem;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-transform: uppercase;
+    }
+    .logo b { color: var(--cyan); font-weight: 400; }
+    .logo .dot { width: 12px; height: 12px; background: var(--pink); display: inline-block; transform: rotate(45deg); border: 2px solid var(--ink); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+    .nav-links .nav-cta {
+      padding: 9px 18px;
+      background: var(--pink);
+      color: #fff;
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform 0.14s, box-shadow 0.14s, background 0.2s;
+    }
+    .nav-links .nav-cta:hover { background: var(--cyan); color: var(--ink); transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--ink); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 28px; height: 3px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(7px, 7px); background: var(--cyan); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); background: var(--cyan); }
+
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px; left: 0; right: 0;
+        background: var(--bg2);
+        border-bottom: 3px solid var(--cyan);
+        flex-direction: column;
+        padding: 26px;
+        gap: 22px;
+        align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+    }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 110px 20px 70px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-bg img, .hero-bg video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 24%;
+      filter: saturate(1.1) contrast(1.05);
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(20,20,20,0.96) 0%, rgba(20,20,20,0.78) 48%, rgba(20,20,20,0.4) 100%),
+        linear-gradient(0deg, rgba(14,14,14,0.96) 0%, rgba(20,20,20,0) 60%);
+    }
+    /* spray-blob accents */
+    #hero::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      width: 460px; height: 460px;
+      right: -80px; top: 8%;
+      background: radial-gradient(circle, rgba(0,224,198,0.30) 0%, rgba(0,224,198,0) 62%);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-copy { max-width: 760px; }
+    .hero-tag {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      color: var(--ink);
+      background: var(--cyan);
+      padding: 7px 14px;
+      margin-bottom: 24px;
+      display: inline-block;
+      transform: rotate(-2deg);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--pink);
+    }
+    .hero-copy h1 {
+      font-size: clamp(4rem, 15vw, 11rem);
+      letter-spacing: 0.005em;
+      margin-bottom: 22px;
+      color: var(--text);
+      line-height: 0.82;
+      text-shadow: 6px 6px 0 var(--pink);
+    }
+    .hero-copy h1 .stroke {
+      color: transparent;
+      -webkit-text-stroke: 3px var(--cyan);
+      text-stroke: 3px var(--cyan);
+      text-shadow: none;
+    }
+    .hero-lead {
+      font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.3;
+      max-width: 600px;
+    }
+    .hero-lead .hl { background: var(--pink); color: #fff; padding: 0 6px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .hero-sub {
+      font-size: 1.02rem;
+      color: var(--muted);
+      margin-bottom: 38px;
+      max-width: 560px;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; }
+    .hero-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 56px;
+      flex-wrap: wrap;
+    }
+    .hero-stats .stat {
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--cyan);
+      padding: 14px 22px;
+      transform: rotate(-1.5deg);
+    }
+    .hero-stats .stat:nth-child(2) { transform: rotate(1.5deg); box-shadow: 5px 5px 0 var(--pink); }
+    .hero-stats .stat:nth-child(3) { transform: rotate(-1deg); box-shadow: 5px 5px 0 var(--yellow); }
+    .hero-stats .stat h3 {
+      font-size: 2.2rem;
+      color: var(--cyan);
+      line-height: 1;
+    }
+    .hero-stats .stat:nth-child(2) h3 { color: var(--pink); }
+    .hero-stats .stat:nth-child(3) h3 { color: var(--yellow); }
+    .hero-stats .stat p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .scroll-cue {
+      position: absolute;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: var(--text);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.66rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: bob 2.2s infinite;
+    }
+    .scroll-cue svg { width: 22px; height: 22px; stroke: var(--cyan); }
+    @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0);} 50% { transform: translateX(-50%) translateY(9px);} }
+
+    /* === FEATURED CUSTOMS === */
+    #customs { background: var(--bg); }
+    .customs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .toy-card {
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      box-shadow: 7px 7px 0 var(--cyan);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .toy-card:nth-child(3n+2) { box-shadow: 7px 7px 0 var(--pink); }
+    .toy-card:nth-child(3n) { box-shadow: 7px 7px 0 var(--yellow); }
+    .toy-card:hover {
+      transform: translate(-3px,-3px) rotate(-0.6deg);
+      box-shadow: 12px 12px 0 var(--cyan);
+    }
+    .toy-card:nth-child(3n+2):hover { box-shadow: 12px 12px 0 var(--pink); }
+    .toy-card:nth-child(3n):hover { box-shadow: 12px 12px 0 var(--yellow); }
+    .toy-media {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+      background: var(--bg2);
+      border-bottom: 3px solid var(--ink);
+    }
+    .toy-media img, .toy-media video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.4s ease;
+      filter: saturate(1.05);
+    }
+    .toy-card:hover .toy-media img,
+    .toy-card:hover .toy-media video { transform: scale(1.07); filter: saturate(1.3) contrast(1.05); }
+    .status {
+      position: absolute;
+      top: 14px; left: 14px;
+      z-index: 3;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: 2px solid var(--ink);
+      transform: rotate(-3deg);
+    }
+    .status--available  { background: var(--cyan); color: var(--ink); }
+    .status--sold       { background: var(--ink); color: var(--pink); }
+    .status--commissioned { background: var(--yellow); color: var(--ink); }
+    .status--personal   { background: var(--pink); color: #fff; }
+
+    .view-build {
+      position: absolute;
+      bottom: 14px; right: 14px;
+      z-index: 3;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      padding: 6px 10px;
+      display: flex; align-items: center; gap: 7px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .view-build svg { width: 14px; height: 14px; stroke: var(--ink); }
+    .toy-card:hover .view-build { opacity: 1; transform: translateY(0); }
+
+    .toy-body { padding: 22px 22px 26px; }
+    .toy-type {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .toy-body h3 {
+      font-size: 1.9rem;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 0.95;
+    }
+    .toy-specs { list-style: none; margin-bottom: 14px; }
+    .toy-specs li {
+      display: flex;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--text);
+      padding: 4px 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.12);
+    }
+    .toy-specs li span {
+      color: var(--pink);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.66rem;
+      min-width: 80px;
+      padding-top: 2px;
+    }
+    .toy-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    .toy-card.template { box-shadow: 7px 7px 0 var(--muted); }
+    .toy-card.template:hover { box-shadow: 12px 12px 0 var(--muted); }
+    .toy-card.template .toy-media {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cyan);
+      font-family: 'Archivo Black', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 20px;
+      background:
+        repeating-linear-gradient(45deg, var(--bg2) 0 14px, #161616 14px 28px);
+    }
+
+    @media (max-width: 1024px) { .customs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .customs-grid { grid-template-columns: 1fr; } }
+
+    /* === COLLECTIONS / BUILD TYPES === */
+    #collections { background: var(--bg2); }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .collection-tile {
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      padding: 30px 26px;
+      transition: transform 0.16s, box-shadow 0.16s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .collection-tile:hover {
+      transform: translate(-3px,-3px);
+      background: var(--raised);
+    }
+    .collection-tile:nth-child(3n+1):hover { box-shadow: 9px 9px 0 var(--cyan); }
+    .collection-tile:nth-child(3n+2):hover { box-shadow: 9px 9px 0 var(--pink); }
+    .collection-tile:nth-child(3n):hover { box-shadow: 9px 9px 0 var(--yellow); }
+    .collection-tile .ct-icon {
+      font-size: 1.9rem; margin-bottom: 14px;
+      display: inline-block;
+      background: var(--bg2);
+      border: 2px solid var(--ink);
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      transform: rotate(-3deg);
+    }
+    .collection-tile h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .collection-tile p { font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 860px) { .collections-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .collections-grid { grid-template-columns: 1fr; } }
+
+    /* === BEFORE & AFTER === */
+    #before-after { background: var(--bg); }
+    .ba-list { display: flex; flex-direction: column; gap: 30px; }
+    .ba-card {
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      box-shadow: 7px 7px 0 var(--pink);
+      padding: 24px;
+    }
+    .ba-stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .ba-stage { position: relative; }
+    .ba-stage .ba-frame {
+      height: 240px;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 3px solid var(--ink);
+    }
+    .ba-stage .ba-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-stage.placeholder .ba-frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--cyan);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 16px;
+      background: repeating-linear-gradient(45deg, var(--bg2) 0 14px, #161616 14px 28px);
+    }
+    .ba-stage .ba-label {
+      position: absolute;
+      top: 10px; left: 10px;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      background: var(--yellow);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      transform: rotate(-3deg);
+    }
+    .ba-note {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .ba-note .ba-title {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+    .ba-note p { font-size: 0.92rem; color: var(--muted); }
+    .ba-note .ba-arrow { color: var(--cyan); font-size: 1.5rem; line-height: 1; flex-shrink: 0; font-weight: bold; }
+    @media (max-width: 720px) {
+      .ba-stages { grid-template-columns: 1fr; }
+      .ba-stage .ba-frame { height: 210px; }
+    }
+
+    /* === COMMISSION PROCESS === */
+    #process { background: var(--bg2); }
+    .process-wrap { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 860px; }
+    .step {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 2px dashed var(--border);
+      align-items: start;
+    }
+    .step:last-of-type { border-bottom: none; }
+    .step .step-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.8rem;
+      color: var(--ink);
+      background: var(--cyan);
+      border: 3px solid var(--ink);
+      line-height: 1;
+      width: 64px; height: 64px;
+      display: flex; align-items: center; justify-content: center;
+      transform: rotate(-3deg);
+    }
+    .step:nth-child(even) .step-num { background: var(--pink); color: #fff; transform: rotate(3deg); }
+    .step:nth-child(3n) .step-num { background: var(--yellow); color: var(--ink); }
+    .step h3 {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .step p { font-size: 0.94rem; color: var(--muted); }
+    .process-cta { margin-top: 46px; }
+    @media (max-width: 540px) {
+      .step { grid-template-columns: 56px 1fr; gap: 16px; }
+      .step .step-num { width: 52px; height: 52px; font-size: 2.2rem; }
+    }
+
+    /* === ABOUT === */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-photos .ph {
+      border: 3px solid var(--ink);
+      box-shadow: 6px 6px 0 var(--cyan);
+      background: var(--surface);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--cyan);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 14px;
+      overflow: hidden;
+    }
+    .about-photos .ph.tall { margin-top: 30px; box-shadow: 6px 6px 0 var(--pink); }
+    .about-photos .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .about-text h2 { font-size: clamp(2.6rem, 6vw, 4rem); color: var(--text); margin-bottom: 20px; }
+    .about-text h2 .pop { color: var(--cyan); }
+    .about-text p { margin-bottom: 16px; color: var(--muted); line-height: 1.8; }
+    .about-text .highlight { color: var(--text); background: var(--pink); padding: 0 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; font-weight: 600; }
+    .about-meta {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .about-meta .am-block {
+      border-left: 4px solid var(--cyan);
+      padding-left: 14px;
+    }
+    .about-meta .am-block:nth-child(2) { border-left-color: var(--pink); }
+    .about-meta .am-block h4 {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.74rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .about-meta .am-block:nth-child(2) h4 { color: var(--pink); }
+    .about-meta .am-block p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+    .about-socials { display: flex; gap: 14px; margin-top: 28px; }
+    .about-socials a {
+      width: 46px; height: 46px;
+      border: 3px solid var(--ink);
+      background: var(--surface);
+      box-shadow: 3px 3px 0 var(--cyan);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.14s, box-shadow 0.14s;
+    }
+    .about-socials a:hover { background: var(--cyan); transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+    .about-socials svg { width: 19px; height: 19px; fill: var(--text); transition: fill 0.2s; }
+    .about-socials a:hover svg { fill: var(--ink); }
+    @media (max-width: 820px) {
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .about-photos { max-width: 440px; }
+    }
+
+    /* === CONTACT === */
+    #contact { background: var(--bg2); }
+    .contact-grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 50px; }
+    .commission-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .commission-form .full { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.68rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #6b6b6b; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 4px 4px 0 var(--pink);
+    }
+    .field textarea { resize: vertical; min-height: 120px; }
+    .field select { appearance: none; cursor: pointer; }
+    .form-note { font-size: 0.8rem; color: var(--muted); }
+    .commission-form .submit-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+    .contact-side h3 {
+      font-family: 'Anton', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      font-size: 1.9rem;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .contact-side > p { color: var(--muted); margin-bottom: 26px; font-size: 0.96rem; }
+    .contact-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .contact-links li a {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 3px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: box-shadow 0.14s, transform 0.14s;
+    }
+    .contact-links li a:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--cyan); }
+    .contact-links svg { width: 22px; height: 22px; fill: var(--cyan); flex-shrink: 0; }
+    .contact-links .cl-label {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.64rem;
+      color: var(--pink);
+      display: block;
+    }
+    .contact-links .cl-val { color: var(--text); font-size: 0.92rem; }
+    .slots-banner {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border: 3px solid var(--ink);
+      background: var(--pink);
+      color: #fff;
+      box-shadow: 6px 6px 0 var(--ink);
+      transform: rotate(-1.5deg);
+    }
+    .slots-banner strong { color: #fff; font-family: 'Archivo Black', sans-serif; letter-spacing: 0.04em; font-size: 1.05rem; }
+    .slots-banner p { font-size: 0.88rem; color: rgba(255,255,255,0.92); margin-top: 6px; }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 480px) {
+      .commission-form { grid-template-columns: 1fr; }
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg);
+      border-top: 3px solid var(--cyan);
+      padding: 54px 20px 36px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-brand .logo { font-size: 1.7rem; margin-bottom: 8px; }
+    .footer-brand p { font-size: 0.84rem; color: var(--muted); max-width: 340px; }
+    .footer-socials { display: flex; gap: 14px; }
+    .footer-socials a {
+      width: 44px; height: 44px;
+      border: 3px solid var(--ink);
+      background: var(--surface);
+      box-shadow: 3px 3px 0 var(--pink);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.14s, box-shadow 0.14s;
+    }
+    .footer-socials a:hover { background: var(--pink); transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+    .footer-socials svg { width: 18px; height: 18px; fill: var(--text); transition: fill 0.2s; }
+    .footer-socials a:hover svg { fill: #fff; }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 34px auto 0;
+      padding-top: 24px;
+      border-top: 2px dashed var(--border);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* === MODAL / LIGHTBOX === */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 2000;
+      background: rgba(8,8,8,0.94);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 4px solid var(--ink);
+      box-shadow: 12px 12px 0 var(--cyan);
+      max-width: 980px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 14px;
+      font-size: 1.6rem;
+      color: var(--ink);
+      cursor: pointer;
+      background: var(--yellow);
+      border: 3px solid var(--ink);
+      z-index: 10;
+      line-height: 1;
+      width: 44px; height: 44px;
+      transition: background 0.2s, transform 0.14s;
+    }
+    .modal-close:hover { background: var(--pink); color: #fff; transform: rotate(90deg); }
+    .modal-carousel {
+      position: relative;
+      background: var(--bg2);
+      overflow: hidden;
+      border-bottom: 4px solid var(--ink);
+    }
+    .modal-carousel img, .modal-carousel video {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      display: none;
+    }
+    .modal-carousel img.active, .modal-carousel video.active { display: block; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--cyan);
+      border: 3px solid var(--ink);
+      color: var(--ink);
+      font-size: 1.3rem;
+      padding: 12px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 5;
+    }
+    .carousel-btn:hover { background: var(--pink); color: #fff; }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-dots { text-align: center; padding: 14px; background: var(--bg2); }
+    .carousel-dots span {
+      display: inline-block;
+      width: 12px; height: 12px;
+      background: rgba(255,255,255,0.22);
+      border: 2px solid var(--ink);
+      margin: 0 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      transform: rotate(45deg);
+    }
+    .carousel-dots span.active { background: var(--cyan); }
+    .modal-body { padding: 28px 30px 32px; }
+    .modal-body .toy-type { margin-bottom: 6px; }
+    .modal-body h3 { font-size: 2.4rem; color: var(--text); margin-bottom: 18px; line-height: 0.95; }
+    .modal-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 24px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 2px dashed var(--border);
+    }
+    .modal-specs .ms-row { display: flex; gap: 10px; font-size: 0.9rem; }
+    .modal-specs .ms-row span {
+      color: var(--pink);
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.66rem;
+      min-width: 72px;
+      padding-top: 2px;
+    }
+    .modal-specs .ms-row .ms-val { color: var(--text); }
+    .modal-body p.modal-desc { color: var(--muted); line-height: 1.8; }
+    @media (max-width: 768px) {
+      .modal { max-height: 94vh; box-shadow: 8px 8px 0 var(--cyan); }
+      .modal-carousel img, .modal-carousel video { max-height: 320px; }
+      .modal-specs { grid-template-columns: 1fr; }
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-cue { animation: none; }
+      .marquee__track { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- ====================== NAVIGATION ====================== -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="logo"><span class="dot"></span>SAND<b>MAN</b></a>
+      <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#customs">Customs</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#before-after">Before / After</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Start a Commission</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====================== HERO ====================== -->
+  <section id="hero">
+    <!-- HERO MEDIA — swap the <img> src for your best shot, or replace the whole
+         .hero-bg block with a muted autoplay loop:
+         <video class="hero-vid" autoplay muted loop playsinline
+                src="../portfolio_materials/vids/Custom KAIZER.mp4"></video> -->
+    <div class="hero-bg">
+      <img src="../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg" alt="Featured custom figure by Sandman"><!-- REPLACE: hero image -->
+    </div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-tag">Sandman Workshop // Custom Toy Artist</p>
+        <h1>SAND<span class="stroke">MAN</span></h1>
+        <p class="hero-lead">Custom figures built from <span class="hl">dreams, dust, paint, and plastic.</span></p>
+        <p class="hero-sub">Hand-painted one-off customs, repaints, and kitbashed figures — turning ordinary models into display-ready collector drops from the Sandman workshop.</p>
+        <div class="hero-ctas">
+          <a href="#customs" class="btn btn-primary">View Customs</a>
+          <a href="#contact" class="btn btn-ghost">Start a Commission</a>
+          <a href="#" class="btn btn-ghost" data-social="instagram" target="_blank" rel="noopener">Follow on Instagram</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><h3>100%</h3><p>Hand-Painted</p></div>
+          <div class="stat"><h3>1-of-1</h3><p>Every Build</p></div>
+          <div class="stat"><h3>Open</h3><p>For Commissions</p></div>
+        </div>
+      </div>
+    </div>
+    <a href="#customs" class="scroll-cue">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M7 10l5 5 5-5"/></svg>
+    </a>
+  </section>
+
+  <!-- ====================== MARQUEE TICKER ====================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- ====================== FEATURED CUSTOMS ====================== -->
+  <section id="customs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Collection</span>
+        <h2 class="section-title">Featured <span class="pop">Customs</span></h2>
+        <p class="section-subtitle">One-off builds, repaints, and kitbashes — each piece documented and display-ready. Tap any figure to view the full build gallery.</p>
+      </div>
+      <div class="customs-grid" id="customsGrid">
+        <!-- Cards are rendered from `portfolioData` by the script below. -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COLLECTIONS / BUILD TYPES ====================== -->
+  <section id="collections">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What I Build</span>
+        <h2 class="section-title">Collections &amp; <span class="pink">Build Types</span></h2>
+        <p class="section-subtitle">From mecha repaints to full scratch builds — the kinds of work that come out of the Sandman workshop.</p>
+      </div>
+      <div class="collections-grid">
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🤖</div><h3>Mecha Customs</h3><p>Gundam, mechs, and robot figures with clean panel work and battle-worn detailing.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🎭</div><h3>Character Customs</h3><p>One-of-a-kind character figures — repurposed, repainted, and brought to life.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🎨</div><h3>Repaints</h3><p>Full strip-and-repaint work — from bare primer to display-grade finishes.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-icon">🛠️</div><h3>Kitbash Builds</h3><p>Parts from many figures fused into a single original, never-seen-before piece.</p></a>
+        <a href="#contact" class="collection-tile reveal"><div class="ct-icon">📦</div><h3>Commissioned Works</h3><p>Built to your vision — your figure, your character, your dream design.</p></a>
+        <a href="#before-after" class="collection-tile reveal"><div class="ct-icon">⏳</div><h3>Work-in-Progress</h3><p>Restorations and in-progress builds — follow a figure's transformation.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== BEFORE & AFTER ====================== -->
+  <section id="before-after">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Transformation</span>
+        <h2 class="section-title">Before &amp; <span class="pop">After</span></h2>
+        <p class="section-subtitle">Collectors love the journey. Here's how a stock figure becomes a one-off collector piece — from original, to work-in-progress, to final custom.</p>
+      </div>
+      <div class="ba-list">
+
+        <!-- BEFORE/AFTER ITEM 1 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Mego RX-78.jpg" alt="Final custom Mego RX-78"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">➜</span>
+            <div>
+              <div class="ba-title">Mego RX-78 — Primer to Display-Ready</div>
+              <p>Stripped to bare plastic, primed, then hand-airbrushed with the classic RX-78 color scheme. Panel lining and a protective topcoat finish the piece. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEFORE/AFTER ITEM 2 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg" alt="Final custom Reaver"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">➜</span>
+            <div>
+              <div class="ba-title">Custom Reaver — Full Character Repaint</div>
+              <p>Repainted from the base figure into a high-contrast custom with gloss and matte detailing across the jacket, limbs, and weapons. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COMMISSION PROCESS ====================== -->
+  <section id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">How It Works</span>
+        <h2 class="section-title">The Commission <span class="pink">Process</span></h2>
+        <p class="section-subtitle">A clear, collaborative process from first idea to finished figure — with progress updates at every stage.</p>
+      </div>
+      <div class="process-wrap">
+        <div class="step reveal"><div class="step-num">01</div><div><h3>Send Your Idea</h3><p>Share your concept and reference photos — the figure, the character, the look you're after.</p></div></div>
+        <div class="step reveal"><div class="step-num">02</div><div><h3>Review &amp; Assessment</h3><p>I review the figure, scale, and complexity to scope out exactly what the build will take.</p></div></div>
+        <div class="step reveal"><div class="step-num">03</div><div><h3>Quote &amp; Timeline</h3><p>You get a clear quotation and an estimated timeline before any work begins.</p></div></div>
+        <div class="step reveal"><div class="step-num">04</div><div><h3>Down Payment</h3><p>A down payment confirms your build slot and locks in the schedule.</p></div></div>
+        <div class="step reveal"><div class="step-num">05</div><div><h3>Work-in-Progress Updates</h3><p>I send progress photos throughout so you're part of the build the whole way.</p></div></div>
+        <div class="step reveal"><div class="step-num">06</div><div><h3>Final Photos &amp; Approval</h3><p>Final showcase photos for your approval before the piece is sealed and finished.</p></div></div>
+        <div class="step reveal"><div class="step-num">07</div><div><h3>Pickup, Delivery or Shipping</h3><p>Carefully packed and handed off — local pickup, delivery, or safe shipping.</p></div></div>
+      </div>
+      <div class="process-cta reveal">
+        <a href="#contact" class="btn btn-primary">Request a Custom Build</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== MARQUEE TICKER (alt) ====================== -->
+  <div class="marquee alt" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack2"></div>
+  </div>
+
+  <!-- ====================== ABOUT THE ARTIST ====================== -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photos reveal">
+          <div class="ph"><!-- REPLACE: artist photo -->Artist<br>Photo</div>
+          <div class="ph tall"><!-- REPLACE: workshop photo -->Workshop<br>Photo</div>
+        </div>
+        <div class="about-text reveal">
+          <span class="eyebrow">The Artist</span>
+          <h2>About <span class="pop">Sandman</span></h2>
+          <p>Sandman is a Filipino custom toy artist focused on <span class="highlight">hand-painted figures, kitbashes, repaints, and collectible art models</span>. His work combines model-making, airbrush painting, detailing, and character customization to turn ordinary figures into one-of-a-kind collector pieces.</p>
+          <p>Every build starts with a conversation — your vision, your favorite character, your dream design — and ends with a display-ready piece made to last. No two customs are ever the same.</p>
+          <div class="about-meta">
+            <div class="am-block">
+              <h4>Signature Style</h4>
+              <p>Clean color separation, weathered detailing, and a collector-grade finish on every piece.</p>
+            </div>
+            <div class="am-block">
+              <h4>Tools &amp; Materials</h4>
+              <p>Airbrush &amp; acrylics, hand-detailing, panel lining, primers and protective topcoats.</p>
+            </div>
+          </div>
+          <div class="about-socials">
+            <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+            <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+            <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACT / COMMISSION INQUIRY ====================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Start a Commission</span>
+        <h2 class="section-title">Request a <span class="pop">Custom Build</span></h2>
+        <p class="section-subtitle">Tell me about your figure and your vision. The more detail and reference you share, the more accurate your quote.</p>
+      </div>
+      <div class="contact-grid">
+        <!-- Commission form. Uses mailto: so it works on GitHub Pages with no backend.
+             To collect submissions properly later, swap the action for a Formspree
+             endpoint:  action="https://formspree.io/f/yourID" method="POST"  -->
+        <form class="commission-form reveal" id="commissionForm" method="POST" enctype="text/plain">
+          <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+          <div class="field"><label>Email or Messenger</label><input type="text" name="contact" placeholder="you@email.com / m.me link" required></div>
+          <div class="field"><label>Type of Commission</label>
+            <select name="commission_type">
+              <option>Repaint</option>
+              <option>Kitbash Build</option>
+              <option>Full Custom Build</option>
+              <option>Mecha Custom</option>
+              <option>Character Custom</option>
+              <option>Figure Restoration</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label>Figure / Model to Customize</label><input type="text" name="figure" placeholder="e.g. Mego RX-78, 1/144 Gundam"></div>
+          <div class="field"><label>Budget Range</label><input type="text" name="budget" placeholder="e.g. ₱2,000 – ₱5,000"></div>
+          <div class="field"><label>Deadline / Target Date</label><input type="text" name="deadline" placeholder="e.g. before December, flexible"></div>
+          <div class="field full"><label>Reference Images</label><input type="text" name="references" placeholder="Paste links to reference photos (or mention you'll send them via Messenger)"></div>
+          <div class="field full"><label>Additional Notes</label><textarea name="notes" placeholder="Describe your vision — colors, style, character, finish, anything else I should know."></textarea></div>
+          <div class="full submit-row">
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <span class="form-note">Opens your email app · or reach me directly →</span>
+          </div>
+        </form>
+
+        <div class="contact-side reveal">
+          <h3>Let's Connect</h3>
+          <p>Questions about a custom project, or want to see more work? Reach out on any channel.</p>
+          <ul class="contact-links">
+            <li><a href="#" data-social="email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span><span class="cl-label">Email</span><span class="cl-val" data-social-text="email">your@email.com</span></span></a></li>
+            <li><a href="#" data-social="messenger" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.36 2 1.69 6.03 1.69 11.05c0 2.84 1.42 5.37 3.63 7.02v3.43l3.27-1.8c.87.24 1.8.37 2.76.37 5.64 0 10.22-4.03 10.22-9.02S17.64 2 12 2zm1.07 12.15l-2.6-2.77-5.08 2.77 5.58-5.92 2.67 2.77 5.01-2.77-5.58 5.92z"/></svg><span><span class="cl-label">Messenger</span><span class="cl-val">Message me on Facebook</span></span></a></li>
+            <li><a href="#" data-social="instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg><span><span class="cl-label">Instagram</span><span class="cl-val" data-social-text="instagram">@sandman.customs</span></span></a></li>
+            <li><a href="#" data-social="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg><span><span class="cl-label">Facebook</span><span class="cl-val">Sandman Workshop</span></span></a></li>
+          </ul>
+          <div class="slots-banner">
+            <strong>LIMITED BUILD SLOTS</strong>
+            <p>Commissions open in small batches to keep every piece collector-grade. Reserve early.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><span class="dot"></span>SAND<b>MAN</b></div>
+        <p>Hand-painted custom figures and collectible art models from the Sandman workshop.</p>
+      </div>
+      <div class="footer-socials">
+        <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+        <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+        <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Sandman Workshop. All customs are one-off, hand-painted collector pieces.</div>
+  </footer>
+
+  <!-- ====================== MODAL / LIGHTBOX ====================== -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      <div class="modal-carousel" id="modalCarousel">
+        <button class="carousel-btn prev" onclick="carouselNav(-1)" aria-label="Previous">&#10094;</button>
+        <button class="carousel-btn next" onclick="carouselNav(1)" aria-label="Next">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="modal-body">
+        <div class="toy-type" id="modalType"></div>
+        <h3 id="modalTitle"></h3>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       SOCIAL / CONTACT LINKS — single source of truth.
+       Edit these once and every button/link on the page updates.
+       ========================================================================= */
+    const SOCIAL = {
+      instagram: 'https://instagram.com/yourpage',   // REPLACE
+      facebook:  'https://facebook.com/yourpage',     // REPLACE
+      messenger: 'https://m.me/yourpage',             // REPLACE
+      email:     'your@email.com',                    // REPLACE
+      instagramHandle: '@sandman.customs'             // REPLACE — display text only
+    };
+
+    /* =========================================================================
+       PROJECT DATA — your customs.
+       Fields:  title, type, base, scale, materials, status, desc, media[]
+       status:  'available' | 'sold' | 'commissioned' | 'personal'
+       Lines marked  // REPLACE  are best-guesses — correct with real details.
+       To ADD a piece: copy a block, give it a new key, drop photos in
+       ../portfolio_materials/ and point `media` at them.
+       ========================================================================= */
+    const portfolioData = {
+      mego: {
+        title: 'Custom Mego RX-78',
+        type: 'Full Repaint · Mecha Custom',
+        base: 'Mego RX-78 Gundam',
+        scale: '8-inch (Mego scale)',        // REPLACE if different
+        materials: 'Acrylic paint, airbrush, panel lining, topcoat',
+        status: 'personal',
+        desc: 'A hand-painted RX-78 custom transformed from bare primer gray to a clean, mecha-inspired finish with panel lining and a collector-style display presentation.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78(2).jpg' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78.mp4' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78(2).mp4' },
+        ]
+      },
+      reaver: {
+        title: 'Custom Reaver',
+        type: 'Custom Repaint · Character Custom',
+        base: 'Reaver figure',               // REPLACE with exact base figure
+        scale: '~7-inch',                     // REPLACE
+        materials: 'Acrylic paint, airbrush, gloss & matte topcoat, hand detailing',
+        status: 'personal',
+        desc: 'A detailed character custom with a striking red jacket, mechanical prosthetic limbs, and a dual-blade weapon system. Gloss and matte finishes play organic against mechanical.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(1).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(3).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(4).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(5).jpg' },
+        ]
+      },
+      kaizer: {
+        title: 'Custom KAIZER',
+        type: 'Full Custom Build',
+        base: 'Kitbashed build',             // REPLACE with base parts/figure
+        scale: '~12-inch',                    // REPLACE
+        materials: 'Mixed media, airbrush, hand detailing, topcoat',  // REPLACE
+        status: 'commissioned',               // REPLACE if not commissioned
+        desc: 'A full custom build showcased in a turntable video — spin through it to catch the detail work from every angle.',
+        media: [
+          { type: 'video', src: '../portfolio_materials/vids/Custom KAIZER.mp4' },
+        ]
+      },
+      megazord: {
+        title: 'Custom Mego Megazord',
+        type: 'Repaint · Mecha Custom',
+        base: 'Mego Megazord 12"',
+        scale: '12-inch',
+        materials: 'Acrylic paint, airbrush, panel work, topcoat',  // REPLACE
+        status: 'personal',
+        desc: 'A 12-inch Mego Megazord given the full custom treatment — hand-painted detailing, panel work, and clean color separation that bring this classic mech to life from every angle.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/mega_front.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008070.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008071.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008073.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008076.jpg' },
+        ]
+      },
+
+      /* ---- TEMPLATE CARD — copy this, rename the key, add your photos ---- */
+      template1: {
+        template: true,
+        title: 'Your Next Custom',
+        type: 'Kitbash / Repaint / Custom Build',
+        base: 'Base figure here',
+        scale: 'Scale / size',
+        materials: 'Paints, tools, finishes used',
+        status: 'available',
+        desc: 'Short collector-style description of the build goes here. Replace this whole block with a real piece.',
+        media: []  // add { type:'image', src:'../portfolio_materials/img/your-photo.jpg' }
+      },
+      template2: {
+        template: true,
+        title: 'Commission Slot Open',
+        type: 'Commissioned Build',
+        base: 'Your figure',
+        scale: 'Any scale',
+        materials: 'Built to spec',
+        status: 'available',
+        desc: 'Reserve a build slot — your figure, your character, your vision. Replace with a finished commission once complete.',
+        media: []
+      }
+    };
+
+    const STATUS_LABEL = {
+      available: 'Available',
+      sold: 'Sold Out',
+      commissioned: 'Commissioned',
+      personal: 'Personal Work'
+    };
+
+    /* ---------- Apply social links from the SOCIAL object ---------- */
+    function hrefFor(key) {
+      if (key === 'email') return 'mailto:' + SOCIAL.email;
+      if (key === 'messenger') return SOCIAL.messenger;
+      return SOCIAL[key] || '#';
+    }
+    document.querySelectorAll('[data-social]').forEach(el => {
+      el.setAttribute('href', hrefFor(el.getAttribute('data-social')));
+    });
+    document.querySelectorAll('[data-social-text]').forEach(el => {
+      const k = el.getAttribute('data-social-text');
+      el.textContent = k === 'email' ? SOCIAL.email : SOCIAL.instagramHandle;
+    });
+
+    /* ---------- Commission form → mailto ---------- */
+    const cForm = document.getElementById('commissionForm');
+    if (cForm) {
+      cForm.setAttribute('action', 'mailto:' + SOCIAL.email);
+      cForm.addEventListener('submit', () => {
+        // mailto handles the rest; subject line for convenience
+        cForm.setAttribute('action', 'mailto:' + SOCIAL.email + '?subject=Custom%20Build%20Inquiry');
+      });
+    }
+
+    /* ---------- Marquee ticker (CSS animation, JS only fills content) ---------- */
+    (function buildMarquee() {
+      const items = ['Custom Toy Artist', 'Hand-Painted', '1-of-1 Drops', 'Repaints', 'Kitbash Builds', 'Mecha Customs', 'Commissions Open', 'Collector-Grade'];
+      const half = items.map(t => `<span>${t}</span><span class="star">✶</span>`).join('');
+      const full = half + half; // duplicated so the -50% loop is seamless
+      ['marqueeTrack', 'marqueeTrack2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = full;
+      });
+    })();
+
+    /* ---------- Render the Featured Customs cards ---------- */
+    function statusBadge(status) {
+      const label = STATUS_LABEL[status] || 'Personal Work';
+      return `<span class="status status--${status}">${label}</span>`;
+    }
+    function renderCards() {
+      const grid = document.getElementById('customsGrid');
+      grid.innerHTML = Object.keys(portfolioData).map(id => {
+        const p = portfolioData[id];
+        if (p.template) {
+          return `
+          <div class="toy-card template reveal" onclick="openModal('${id}')">
+            <div class="toy-media">${statusBadge(p.status)}＋ Add your custom here</div>
+            <div class="toy-body">
+              <div class="toy-type">${p.type}</div>
+              <h3>${p.title}</h3>
+              <p class="toy-desc">${p.desc}</p>
+            </div>
+          </div>`;
+        }
+        const first = p.media[0];
+        const thumb = first && first.type === 'video'
+          ? `<video src="${first.src}" muted playsinline preload="metadata"></video>`
+          : `<img src="${first ? first.src : ''}" alt="${p.title}">`;
+        return `
+        <div class="toy-card reveal" onclick="openModal('${id}')">
+          <div class="toy-media">
+            ${statusBadge(p.status)}
+            ${thumb}
+            <span class="view-build">View Build
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="toy-body">
+            <div class="toy-type">${p.type}</div>
+            <h3>${p.title}</h3>
+            <ul class="toy-specs">
+              <li><span>Base</span>${p.base}</li>
+              <li><span>Scale</span>${p.scale}</li>
+              <li><span>Materials</span>${p.materials}</li>
+            </ul>
+            <p class="toy-desc">${p.desc}</p>
+          </div>
+        </div>`;
+      }).join('');
+      // observe the freshly-rendered cards for scroll reveal
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    }
+
+    /* ---------- Modal / carousel ---------- */
+    let currentSlide = 0;
+    let currentMedia = [];
+
+    function openModal(projectId) {
+      const project = portfolioData[projectId];
+      if (!project) return;
+
+      document.getElementById('modalType').textContent = project.type || '';
+      document.getElementById('modalTitle').textContent = project.title;
+      document.getElementById('modalDesc').textContent = project.desc;
+
+      // Specs
+      const specs = [
+        ['Base', project.base],
+        ['Scale', project.scale],
+        ['Materials', project.materials],
+        ['Status', STATUS_LABEL[project.status] || '']
+      ].filter(r => r[1]);
+      document.getElementById('modalSpecs').innerHTML = specs.map(
+        r => `<div class="ms-row"><span>${r[0]}</span><span class="ms-val">${r[1]}</span></div>`
+      ).join('');
+
+      const carousel = document.getElementById('modalCarousel');
+      carousel.querySelectorAll('img, video').forEach(el => el.remove());
+
+      currentMedia = project.media || [];
+      currentSlide = 0;
+
+      const dotsContainer = document.getElementById('carouselDots');
+      dotsContainer.innerHTML = '';
+
+      if (currentMedia.length === 0) {
+        const ph = document.createElement('img');
+        ph.alt = 'No photos yet';
+        ph.src = 'data:image/svg+xml,' + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'><rect width='100%' height='100%' fill='%230e0e0e'/><text x='50%' y='50%' fill='%2300e0c6' font-family='sans-serif' font-size='22' text-anchor='middle'>Add photos to this build</text></svg>");
+        ph.classList.add('active');
+        carousel.insertBefore(ph, carousel.querySelector('.carousel-btn.prev'));
+      }
+
+      currentMedia.forEach((item, i) => {
+        let el;
+        if (item.type === 'image') {
+          el = document.createElement('img');
+          el.src = item.src; el.alt = project.title;
+        } else {
+          el = document.createElement('video');
+          el.src = item.src; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+        }
+        if (i === 0) el.classList.add('active');
+        carousel.insertBefore(el, carousel.querySelector('.carousel-btn.prev'));
+
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      const showNav = currentMedia.length > 1;
+      carousel.querySelectorAll('.carousel-btn').forEach(btn => btn.style.display = showNav ? 'block' : 'none');
+
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('#modalCarousel video').forEach(v => v.pause());
+    }
+
+    function goToSlide(index) {
+      const carousel = document.getElementById('modalCarousel');
+      const items = carousel.querySelectorAll('img, video');
+      const dots = document.querySelectorAll('#carouselDots span');
+      if (!items.length) return;
+
+      if (items[currentSlide] && items[currentSlide].tagName === 'VIDEO') items[currentSlide].pause();
+      items[currentSlide].classList.remove('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+
+      currentSlide = index;
+      if (currentSlide >= items.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = items.length - 1;
+
+      items[currentSlide].classList.add('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
+    function carouselNav(dir) { goToSlide(currentSlide + dir); }
+
+    /* ---------- Nav: hamburger + scrolled state + active link ---------- */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+    }));
+
+    const nav = document.getElementById('nav');
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current && !link.classList.contains('nav-cta'));
+      });
+    });
+
+    /* ---------- Keyboard controls ---------- */
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('modal').classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') carouselNav(-1);
+      if (e.key === 'ArrowRight') carouselNav(1);
+    });
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Init ---------- */
+    renderCards();
+  </script>
+</body>
+</html>

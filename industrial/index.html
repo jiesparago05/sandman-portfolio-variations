@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANDMAN — Custom Toy Artist | Hand-Painted Figures &amp; Collectible Art Models</title>
+  <meta name="description" content="SANDMAN is a Filipino custom toy artist crafting hand-painted figures, repaints, kitbashes, and collectible art models. One-off customs and commissioned builds for serious collectors.">
+  <meta name="author" content="Sandman">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!--
+  ============================================================================
+   EDIT ME — quick guide to making this site yours
+  ============================================================================
+   1. SOCIAL / CONTACT LINKS: edit the `SOCIAL` object in the <script> at the
+      bottom (Instagram, Facebook, email, Messenger). Changing them there
+      updates every button on the page automatically.
+   2. PROJECT DETAILS + PHOTOS: edit the `portfolioData` object in the <script>.
+      Lines marked  // REPLACE  are best-guesses — correct them with real info.
+   3. HERO IMAGE/VIDEO: search for "HERO MEDIA" below.
+   4. BEFORE & AFTER photos: search for "REPLACE: before" — drop in your shots.
+   5. ARTIST + WORKSHOP photos: search for "REPLACE: artist photo".
+   All images live in the  ../portfolio_materials/  folder (one level up — this
+   page sits in a subfolder, so every asset path is prefixed with ../).
+  ============================================================================
+  -->
+
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Archivo', sans-serif; font-weight: 800; line-height: 1.02; letter-spacing: -0.01em; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    section { padding: clamp(64px, 9vw, 120px) 20px; position: relative; }
+    .container { max-width: 1200px; margin: 0 auto; position: relative; }
+
+    /* === COLOR PALETTE — dark industrial workshop, safety-orange accent === */
+    :root {
+      --bg:        #1a1a18;   /* dark workshop concrete */
+      --bg-2:      #161614;   /* deeper panel */
+      --surface:   #222220;   /* card / panel */
+      --raised:    #2a2a27;   /* raised */
+      --text:      #e8e6e1;   /* paper white */
+      --muted:     #9a978f;   /* graphite gray */
+      --faint:     #6c6a64;   /* faint label gray */
+      --accent:    #ff5b1f;   /* safety orange */
+      --accent-2:  #e6b400;   /* industrial yellow */
+      --line:      rgba(232,230,225,0.10);  /* hairline grid */
+      --line-2:    rgba(232,230,225,0.18);  /* stronger hairline */
+      --grid:      rgba(232,230,225,0.045); /* blueprint grid */
+    }
+
+    /* === BLUEPRINT GRID BACKGROUND (graph paper) === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    /* === GRAIN / NOISE TEXTURE OVERLAY === */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      pointer-events: none;
+      opacity: 0.04;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    nav, section, footer, .modal-overlay { position: relative; z-index: 1; }
+
+    /* === SHARED HELPERS === */
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow::before { content: '//'; color: var(--faint); }
+    .section-title {
+      font-size: clamp(2.1rem, 5.6vw, 3.8rem);
+      color: var(--text);
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    .section-title .amber { color: var(--accent); }
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 56px;
+      font-size: 0.94rem;
+      line-height: 1.75;
+    }
+    .section-head { margin-bottom: 10px; position: relative; }
+    /* Stamped section index e.g. SEC.02 */
+    .sec-index {
+      position: absolute;
+      top: 2px; right: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--faint);
+      text-transform: uppercase;
+      border: 1px solid var(--line-2);
+      padding: 5px 10px;
+    }
+    @media (max-width: 640px) { .sec-index { display: none; } }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 0;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #1a1408;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+    }
+    .btn-primary:hover {
+      transform: translate(-2px,-2px);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.45);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line-2);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(26, 26, 24, 0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(22, 22, 20, 0.95);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 66px;
+      padding: 0 20px;
+    }
+    .logo {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+    }
+    .logo b { color: var(--accent); font-weight: 900; }
+    .logo .mark {
+      width: 16px; height: 16px;
+      border: 2px solid var(--accent);
+      position: relative;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .logo .mark::before, .logo .mark::after {
+      content: ''; position: absolute; background: var(--accent);
+    }
+    .logo .mark::before { left: 50%; top: -4px; bottom: -4px; width: 1px; transform: translateX(-50%); }
+    .logo .mark::after { top: 50%; left: -4px; right: -4px; height: 1px; transform: translateY(-50%); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 22px;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      transition: color 0.2s, opacity 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); opacity: 1; }
+    .nav-links .nav-cta {
+      padding: 8px 16px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      opacity: 1;
+    }
+    .nav-links .nav-cta:hover { background: var(--accent); color: #1a1408; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 2px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 66px; left: 0; right: 0;
+        background: rgba(22, 22, 20, 0.99);
+        border-bottom: 1px solid var(--line-2);
+        flex-direction: column;
+        padding: 24px;
+        gap: 20px;
+      }
+      .nav-links.open { display: flex; }
+    }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 90px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-bg img, .hero-bg video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      filter: grayscale(0.35) contrast(1.05);
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(26,26,24,0.97) 0%, rgba(26,26,24,0.82) 48%, rgba(26,26,24,0.55) 100%),
+        linear-gradient(0deg, rgba(26,26,24,0.96) 0%, rgba(26,26,24,0) 60%);
+    }
+    /* blueprint overlay grid on hero */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,91,31,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,91,31,0.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-copy { max-width: 740px; }
+    .hero-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hero-tag::before { content: ''; width: 42px; height: 1px; background: var(--accent); display: inline-block; }
+    .hero-copy h1 {
+      font-size: clamp(3.2rem, 12vw, 9rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+      color: var(--text);
+      text-transform: uppercase;
+      line-height: 0.9;
+    }
+    .hero-copy h1 .stroke {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--accent);
+    }
+    .hero-lead {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1rem, 2.4vw, 1.35rem);
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+    .hero-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 560px;
+      line-height: 1.75;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 54px;
+      flex-wrap: wrap;
+      border: 1px solid var(--line-2);
+      max-width: 620px;
+    }
+    .hero-stats .stat {
+      flex: 1;
+      min-width: 120px;
+      padding: 18px 20px;
+      border-right: 1px solid var(--line-2);
+    }
+    .hero-stats .stat:last-child { border-right: none; }
+    .hero-stats .stat h3 {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stats .stat p {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.66rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* TITLE BLOCK — fake spec data, bottom-right like a technical drawing */
+    .title-block {
+      position: absolute;
+      bottom: 26px; right: 20px;
+      z-index: 3;
+      border: 1px solid var(--line-2);
+      background: rgba(22,22,20,0.82);
+      backdrop-filter: blur(4px);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--muted);
+      max-width: 280px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+    }
+    .title-block .tb-row { display: contents; }
+    .title-block .tb-k {
+      padding: 7px 10px;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+    .title-block .tb-v {
+      padding: 7px 10px;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+    }
+    .title-block .tb-row:last-child .tb-k,
+    .title-block .tb-row:last-child .tb-v { border-bottom: none; }
+    .title-block .tb-v.hl { color: var(--accent); }
+    @media (max-width: 980px) { .title-block { display: none; } }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 26px; left: 20px;
+      z-index: 3;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: bob 2.2s infinite;
+    }
+    .scroll-cue svg { width: 18px; height: 18px; stroke: var(--accent); }
+    @keyframes bob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(6px);} }
+
+    /* === FEATURED CUSTOMS === */
+    #customs { background: var(--bg); }
+    .customs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    /* SPEC CARD — datasheet styling */
+    .toy-card {
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 0;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    /* corner registration ticks */
+    .toy-card::before, .toy-card::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0.55;
+      transition: opacity 0.25s;
+    }
+    .toy-card::before { top: 8px; left: 8px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+    .toy-card::after { bottom: 8px; right: 8px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+    .toy-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.35);
+    }
+    .toy-card:hover::before, .toy-card:hover::after { opacity: 1; }
+    .toy-media {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      background: #0e0e0c;
+      border-bottom: 1px solid var(--line-2);
+    }
+    .toy-media img, .toy-media video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.4s ease;
+      filter: grayscale(0.15);
+    }
+    .toy-card:hover .toy-media img,
+    .toy-card:hover .toy-media video { transform: scale(1.05); filter: grayscale(0); }
+    /* crosshair reveal on hover */
+    .toy-media .crosshair {
+      position: absolute; inset: 0; z-index: 3;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,91,31,0.4), rgba(255,91,31,0.4)),
+        linear-gradient(rgba(255,91,31,0.4), rgba(255,91,31,0.4));
+      background-size: 1px 100%, 100% 1px;
+      background-position: center, center;
+      background-repeat: no-repeat;
+    }
+    .toy-card:hover .toy-media .crosshair { opacity: 1; }
+    /* part-number tag */
+    .part-no {
+      position: absolute;
+      bottom: 10px; left: 10px;
+      z-index: 4;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      background: rgba(14,14,12,0.78);
+      border: 1px solid var(--line-2);
+      padding: 3px 8px;
+      text-transform: uppercase;
+    }
+    .status {
+      position: absolute;
+      top: 12px; right: 12px;
+      z-index: 4;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 0;
+    }
+    .status::before { content: '● '; }
+    .status--available  { background: var(--accent); color: #1a1408; }
+    .status--sold       { background: rgba(20,20,18,0.9); color: var(--muted); border: 1px solid var(--line-2); }
+    .status--commissioned { background: var(--accent-2); color: #1a1408; }
+    .status--personal   { background: rgba(20,20,18,0.78); color: var(--text); border: 1px solid var(--line-2); }
+
+    .view-build {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      z-index: 4;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(14,14,12,0.78);
+      border: 1px solid var(--accent);
+      padding: 4px 9px;
+      opacity: 0; transform: translateX(8px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .view-build svg { width: 13px; height: 13px; stroke: var(--accent); }
+    .toy-card:hover .view-build { opacity: 1; transform: translateX(0); }
+
+    .toy-body { padding: 20px 20px 24px; }
+    .toy-type {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.66rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .toy-body h3 {
+      font-size: 1.45rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+    .toy-specs { list-style: none; margin-bottom: 14px; }
+    .toy-specs li {
+      display: flex;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text);
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--line-2);
+      align-items: baseline;
+    }
+    .toy-specs li span {
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.64rem;
+      min-width: 74px;
+      position: relative;
+    }
+    /* dotted leader effect between label and value */
+    .toy-specs li span::after {
+      content: '';
+      position: absolute;
+      left: 0; right: -8px; bottom: 3px;
+      border-bottom: 1px dotted var(--line-2);
+      z-index: -1;
+    }
+    .toy-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+
+    .toy-card.template { border-style: dashed; border-color: var(--line-2); }
+    .toy-card.template::before, .toy-card.template::after { opacity: 0.3; }
+    .toy-card.template .toy-media {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      text-align: center;
+      padding: 20px;
+    }
+    .toy-card.template .toy-media .crosshair { display: none; }
+
+    @media (max-width: 1024px) { .customs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .customs-grid { grid-template-columns: 1fr; } }
+
+    /* === COLLECTIONS / BUILD TYPES === */
+    #collections { background: var(--bg-2); }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line-2);
+      border-left: 1px solid var(--line-2);
+    }
+    .collection-tile {
+      background: var(--bg-2);
+      border-right: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+      padding: 30px 26px;
+      transition: background 0.25s, color 0.25s;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+    .collection-tile .ct-no {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .collection-tile:hover { background: var(--surface); }
+    .collection-tile:hover .ct-no { color: var(--accent); }
+    .collection-tile .ct-icon { font-size: 1.6rem; margin-bottom: 14px; }
+    .collection-tile h3 {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+      color: var(--text);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .collection-tile p { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+    @media (max-width: 860px) { .collections-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .collections-grid { grid-template-columns: 1fr; } }
+
+    /* === BEFORE & AFTER === */
+    #before-after { background: var(--bg); }
+    .ba-list { display: flex; flex-direction: column; gap: 24px; }
+    .ba-card {
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 0;
+      padding: 22px;
+      position: relative;
+    }
+    .ba-card .ba-stamp {
+      position: absolute;
+      top: 0; right: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      color: var(--faint);
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-left: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .ba-stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .ba-stage { position: relative; }
+    .ba-stage .ba-frame {
+      height: 230px;
+      border-radius: 0;
+      overflow: hidden;
+      background: #0e0e0c;
+      border: 1px solid var(--line-2);
+    }
+    .ba-stage .ba-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.1); }
+    .ba-stage.placeholder .ba-frame {
+      border-style: dashed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 16px;
+    }
+    .ba-stage .ba-label {
+      position: absolute;
+      top: 10px; left: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 0;
+      background: rgba(14,14,12,0.85);
+      color: var(--accent);
+      border: 1px solid var(--line-2);
+    }
+    .ba-note {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .ba-note .ba-title {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      color: var(--text);
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+    .ba-note p { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+    .ba-note .ba-arrow { color: var(--accent); font-size: 1.1rem; line-height: 1.4; flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; }
+    @media (max-width: 720px) {
+      .ba-stages { grid-template-columns: 1fr; }
+      .ba-stage .ba-frame { height: 200px; }
+    }
+
+    /* === COMMISSION PROCESS === */
+    #process { background: var(--bg-2); }
+    .process-wrap { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 860px; border-top: 1px solid var(--line-2); }
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 22px;
+      padding: 22px 4px;
+      border-bottom: 1px solid var(--line-2);
+      align-items: start;
+    }
+    .step .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--accent);
+      line-height: 1;
+      position: relative;
+      padding-top: 2px;
+    }
+    .step .step-num::before {
+      content: 'STEP';
+      display: block;
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      color: var(--faint);
+      margin-bottom: 6px;
+    }
+    .step h3 {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      font-size: 1.02rem;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .step p { font-size: 0.84rem; color: var(--muted); line-height: 1.65; }
+    .process-cta { margin-top: 44px; }
+    @media (max-width: 540px) {
+      .step { grid-template-columns: 60px 1fr; gap: 16px; }
+      .step .step-num { font-size: 1.4rem; }
+    }
+
+    /* === ABOUT === */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 54px;
+      align-items: center;
+    }
+    .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .about-photos .ph {
+      border-radius: 0;
+      border: 1px dashed var(--line-2);
+      background: var(--surface);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-photos .ph::before {
+      content: 'FIG';
+      position: absolute; top: 8px; left: 8px;
+      font-size: 0.56rem; letter-spacing: 0.16em; color: var(--accent);
+    }
+    .about-photos .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photos .ph.tall { margin-top: 28px; }
+    .about-text h2 { font-size: clamp(2rem, 5vw, 3.2rem); color: var(--text); margin-bottom: 20px; text-transform: uppercase; letter-spacing: -0.02em; }
+    .about-text p { margin-bottom: 16px; color: var(--muted); line-height: 1.85; font-size: 0.9rem; }
+    .about-text .highlight { color: var(--accent); font-weight: 600; }
+    .about-meta {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--line-2);
+    }
+    .about-meta .am-block { padding: 18px; border-right: 1px solid var(--line-2); }
+    .about-meta .am-block:last-child { border-right: none; }
+    .about-meta .am-block h4 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.66rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .about-meta .am-block p { font-size: 0.8rem; color: var(--muted); margin: 0; line-height: 1.6; }
+    .about-socials { display: flex; gap: 12px; margin-top: 26px; }
+    .about-socials a {
+      width: 42px; height: 42px;
+      border: 1px solid var(--line-2);
+      border-radius: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .about-socials a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
+    .about-socials svg { width: 18px; height: 18px; fill: var(--text); transition: fill 0.2s; }
+    .about-socials a:hover svg { fill: #1a1408; }
+    @media (max-width: 820px) {
+      .about-grid { grid-template-columns: 1fr; gap: 34px; }
+      .about-photos { max-width: 420px; }
+    }
+
+    /* === CONTACT === */
+    #contact { background: var(--bg-2); }
+    .contact-grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 50px; }
+    .commission-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .commission-form .full { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.66rem;
+      color: var(--faint);
+      margin-bottom: 7px;
+    }
+    .field label::before { content: '> '; color: var(--accent); }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--line-2);
+      border-radius: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #5f5d57; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,91,31,0.12);
+    }
+    .field textarea { resize: vertical; min-height: 120px; }
+    .field select { appearance: none; cursor: pointer; }
+    .form-note { font-size: 0.72rem; color: var(--muted); }
+    .commission-form .submit-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+    .contact-side h3 {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .contact-side > p { color: var(--muted); margin-bottom: 26px; font-size: 0.86rem; line-height: 1.7; }
+    .contact-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .contact-links li a {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 15px;
+      background: var(--bg);
+      border: 1px solid var(--line-2);
+      border-radius: 0;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-links li a:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-links svg { width: 22px; height: 22px; fill: var(--accent); flex-shrink: 0; }
+    .contact-links .cl-label {
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.62rem;
+      color: var(--faint);
+      display: block;
+    }
+    .contact-links .cl-val { color: var(--text); font-size: 0.86rem; }
+    .slots-banner {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border: 1px solid var(--line-2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0;
+      background: var(--bg);
+    }
+    .slots-banner strong { color: var(--accent); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.1em; font-size: 0.82rem; }
+    .slots-banner p { font-size: 0.78rem; color: var(--muted); margin-top: 6px; line-height: 1.6; }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    @media (max-width: 480px) {
+      .commission-form { grid-template-columns: 1fr; }
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--line-2);
+      padding: 50px 20px 34px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-brand .logo { font-size: 1.15rem; margin-bottom: 10px; }
+    .footer-brand p { font-size: 0.78rem; color: var(--muted); max-width: 340px; line-height: 1.65; }
+    .footer-socials { display: flex; gap: 12px; }
+    .footer-socials a {
+      width: 40px; height: 40px;
+      border-radius: 0;
+      border: 1px solid var(--line-2);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .footer-socials a:hover { background: var(--accent); transform: translateY(-3px); }
+    .footer-socials svg { width: 17px; height: 17px; fill: var(--text); transition: fill 0.2s; }
+    .footer-socials a:hover svg { fill: #1a1408; }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding-top: 22px;
+      border-top: 1px solid var(--line-2);
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    /* === MODAL / LIGHTBOX === */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 2000;
+      background: rgba(10, 10, 8, 0.93);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 0;
+      max-width: 960px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.4);
+    }
+    .modal-close {
+      position: absolute;
+      top: 10px; right: 12px;
+      font-size: 1.6rem;
+      color: var(--text);
+      cursor: pointer;
+      background: rgba(20,20,18,0.7);
+      border: 1px solid var(--line-2);
+      z-index: 10;
+      line-height: 1;
+      width: 40px; height: 40px;
+      border-radius: 0;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .modal-close:hover { color: var(--accent); border-color: var(--accent); background: rgba(20,20,18,0.95); }
+    .modal-carousel {
+      position: relative;
+      background: #0a0a08;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line-2);
+    }
+    .modal-carousel img, .modal-carousel video {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      display: none;
+    }
+    .modal-carousel img.active, .modal-carousel video.active { display: block; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,91,31,0.18);
+      border: 1px solid var(--line-2);
+      color: var(--text);
+      font-size: 1.2rem;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      z-index: 5;
+    }
+    .carousel-btn:hover { background: rgba(255,91,31,0.45); border-color: var(--accent); }
+    .carousel-btn.prev { left: 0; }
+    .carousel-btn.next { right: 0; }
+    .carousel-dots { text-align: center; padding: 12px; background: #0a0a08; }
+    .carousel-dots span {
+      display: inline-block;
+      width: 9px; height: 9px;
+      border-radius: 0;
+      background: rgba(232,230,225,0.22);
+      margin: 0 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .carousel-dots span.active { background: var(--accent); }
+    .modal-body { padding: 26px 28px 30px; }
+    .modal-body .toy-type { margin-bottom: 6px; }
+    .modal-body h3 { font-size: 1.7rem; color: var(--text); margin-bottom: 18px; text-transform: uppercase; letter-spacing: -0.01em; }
+    .modal-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: 18px;
+      border: 1px solid var(--line-2);
+    }
+    .modal-specs .ms-row { display: flex; gap: 10px; font-size: 0.82rem; padding: 10px 14px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+    .modal-specs .ms-row span {
+      color: var(--faint);
+      font-family: 'IBM Plex Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.64rem;
+      min-width: 66px;
+      padding-top: 2px;
+    }
+    .modal-specs .ms-row .ms-val { color: var(--text); }
+    .modal-body p.modal-desc { color: var(--muted); line-height: 1.8; font-size: 0.88rem; }
+    @media (max-width: 768px) {
+      .modal { max-height: 94vh; }
+      .modal-carousel img, .modal-carousel video { max-height: 320px; }
+      .modal-specs { grid-template-columns: 1fr; }
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-cue, .hero-tag::before { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* === FOCUS STYLES (accessibility) === */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    select:focus-visible, textarea:focus-visible, .toy-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ====================== NAVIGATION ====================== -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="logo"><span class="mark" aria-hidden="true"></span>SAND<b>MAN</b></a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#customs">Customs</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#before-after">Before / After</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Start a Commission</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====================== HERO ====================== -->
+  <section id="hero" aria-label="Intro">
+    <!-- HERO MEDIA — swap the <img> src for your best shot, or replace the whole
+         .hero-bg block with a muted autoplay loop:
+         <video class="hero-vid" autoplay muted loop playsinline
+                src="../portfolio_materials/vids/Custom KAIZER.mp4"></video> -->
+    <div class="hero-bg" aria-hidden="true">
+      <img src="../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg" alt="Featured custom figure by Sandman"><!-- REPLACE: hero image -->
+    </div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-tag">Sandman Workshop · Build Log</p>
+        <h1>SAND<span class="stroke">MAN</span></h1>
+        <p class="hero-lead">Custom figures built from dreams, dust, paint, and plastic.</p>
+        <p class="hero-sub">Hand-painted one-off customs, repaints, and kitbashed figures — turning ordinary models into display-ready collector pieces from the Sandman workshop.</p>
+        <div class="hero-ctas">
+          <a href="#customs" class="btn btn-primary">View Customs</a>
+          <a href="#contact" class="btn btn-ghost">Start a Commission</a>
+          <a href="#" class="btn btn-ghost" data-social="instagram" target="_blank" rel="noopener">Follow on Instagram</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><h3>100%</h3><p>Hand-Painted</p></div>
+          <div class="stat"><h3>1-of-1</h3><p>Every Build</p></div>
+          <div class="stat"><h3>Open</h3><p>For Commissions</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TITLE BLOCK — fake spec data like a technical drawing. Edit freely. -->
+    <div class="title-block" aria-hidden="true">
+      <div class="tb-row"><div class="tb-k">Studio</div><div class="tb-v">Sandman Workshop</div></div>
+      <div class="tb-row"><div class="tb-k">Discipline</div><div class="tb-v">Custom Toy Artist</div></div>
+      <div class="tb-row"><div class="tb-k">Build No.</div><div class="tb-v hl">RX-78 / 001</div></div>
+      <div class="tb-row"><div class="tb-k">Status</div><div class="tb-v hl">Commissions Open</div></div>
+    </div>
+
+    <a href="#customs" class="scroll-cue">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
+    </a>
+  </section>
+
+  <!-- ====================== FEATURED CUSTOMS ====================== -->
+  <section id="customs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="sec-index">SEC.01 / CUSTOMS</span>
+        <span class="eyebrow">The Collection</span>
+        <h2 class="section-title">Featured <span class="amber">Customs</span></h2>
+        <p class="section-subtitle">One-off builds, repaints, and kitbashes — each piece documented and display-ready. Tap any figure to open its full spec sheet and build gallery.</p>
+      </div>
+      <div class="customs-grid" id="customsGrid">
+        <!-- Cards are rendered from `portfolioData` by the script below. -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COLLECTIONS / BUILD TYPES ====================== -->
+  <section id="collections">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="sec-index">SEC.02 / BUILD TYPES</span>
+        <span class="eyebrow">What I Build</span>
+        <h2 class="section-title">Collections &amp; <span class="amber">Build Types</span></h2>
+        <p class="section-subtitle">From mecha repaints to full scratch builds — the kinds of work that come out of the Sandman workshop.</p>
+      </div>
+      <div class="collections-grid">
+        <a href="#customs" class="collection-tile reveal"><span class="ct-no">[01]</span><div class="ct-icon" aria-hidden="true">🤖</div><h3>Mecha Customs</h3><p>Gundam, mechs, and robot figures with clean panel work and battle-worn detailing.</p></a>
+        <a href="#customs" class="collection-tile reveal"><span class="ct-no">[02]</span><div class="ct-icon" aria-hidden="true">🎭</div><h3>Character Customs</h3><p>One-of-a-kind character figures — repurposed, repainted, and brought to life.</p></a>
+        <a href="#customs" class="collection-tile reveal"><span class="ct-no">[03]</span><div class="ct-icon" aria-hidden="true">🎨</div><h3>Repaints</h3><p>Full strip-and-repaint work — from bare primer to display-grade finishes.</p></a>
+        <a href="#customs" class="collection-tile reveal"><span class="ct-no">[04]</span><div class="ct-icon" aria-hidden="true">🛠️</div><h3>Kitbash Builds</h3><p>Parts from many figures fused into a single original, never-seen-before piece.</p></a>
+        <a href="#contact" class="collection-tile reveal"><span class="ct-no">[05]</span><div class="ct-icon" aria-hidden="true">📦</div><h3>Commissioned Works</h3><p>Built to your vision — your figure, your character, your dream design.</p></a>
+        <a href="#before-after" class="collection-tile reveal"><span class="ct-no">[06]</span><div class="ct-icon" aria-hidden="true">⏳</div><h3>Work-in-Progress</h3><p>Restorations and in-progress builds — follow a figure's transformation.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== BEFORE & AFTER ====================== -->
+  <section id="before-after">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="sec-index">SEC.03 / TRANSFORM</span>
+        <span class="eyebrow">The Transformation</span>
+        <h2 class="section-title">Before &amp; <span class="amber">After</span></h2>
+        <p class="section-subtitle">Collectors love the journey. Here's how a stock figure becomes a one-off collector piece — from original, to work-in-progress, to final custom.</p>
+      </div>
+      <div class="ba-list">
+
+        <!-- BEFORE/AFTER ITEM 1 -->
+        <div class="ba-card reveal">
+          <span class="ba-stamp">REC.01 — RX-78</span>
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Mego RX-78.jpg" alt="Final custom Mego RX-78"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow" aria-hidden="true">&gt;&gt;</span>
+            <div>
+              <div class="ba-title">Mego RX-78 — Primer to Display-Ready</div>
+              <p>Stripped to bare plastic, primed, then hand-airbrushed with the classic RX-78 color scheme. Panel lining and a protective topcoat finish the piece. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEFORE/AFTER ITEM 2 -->
+        <div class="ba-card reveal">
+          <span class="ba-stamp">REC.02 — REAVER</span>
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg" alt="Final custom Reaver"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow" aria-hidden="true">&gt;&gt;</span>
+            <div>
+              <div class="ba-title">Custom Reaver — Full Character Repaint</div>
+              <p>Repainted from the base figure into a high-contrast custom with gloss and matte detailing across the jacket, limbs, and weapons. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COMMISSION PROCESS ====================== -->
+  <section id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="sec-index">SEC.04 / PROCESS</span>
+        <span class="eyebrow">How It Works</span>
+        <h2 class="section-title">The Commission <span class="amber">Process</span></h2>
+        <p class="section-subtitle">A clear, collaborative process from first idea to finished figure — with progress updates at every stage.</p>
+      </div>
+      <div class="process-wrap">
+        <div class="step reveal"><div class="step-num">01</div><div><h3>Send Your Idea</h3><p>Share your concept and reference photos — the figure, the character, the look you're after.</p></div></div>
+        <div class="step reveal"><div class="step-num">02</div><div><h3>Review &amp; Assessment</h3><p>I review the figure, scale, and complexity to scope out exactly what the build will take.</p></div></div>
+        <div class="step reveal"><div class="step-num">03</div><div><h3>Quote &amp; Timeline</h3><p>You get a clear quotation and an estimated timeline before any work begins.</p></div></div>
+        <div class="step reveal"><div class="step-num">04</div><div><h3>Down Payment</h3><p>A down payment confirms your build slot and locks in the schedule.</p></div></div>
+        <div class="step reveal"><div class="step-num">05</div><div><h3>Work-in-Progress Updates</h3><p>I send progress photos throughout so you're part of the build the whole way.</p></div></div>
+        <div class="step reveal"><div class="step-num">06</div><div><h3>Final Photos &amp; Approval</h3><p>Final showcase photos for your approval before the piece is sealed and finished.</p></div></div>
+        <div class="step reveal"><div class="step-num">07</div><div><h3>Pickup, Delivery or Shipping</h3><p>Carefully packed and handed off — local pickup, delivery, or safe shipping.</p></div></div>
+      </div>
+      <div class="process-cta reveal">
+        <a href="#contact" class="btn btn-primary">Request a Custom Build</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== ABOUT THE ARTIST ====================== -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head reveal" style="margin-bottom:42px;">
+        <span class="sec-index">SEC.05 / ARTIST</span>
+      </div>
+      <div class="about-grid">
+        <div class="about-photos reveal">
+          <div class="ph"><!-- REPLACE: artist photo -->Artist<br>Photo</div>
+          <div class="ph tall"><!-- REPLACE: workshop photo -->Workshop<br>Photo</div>
+        </div>
+        <div class="about-text reveal">
+          <span class="eyebrow">The Artist</span>
+          <h2>About <span style="color:var(--accent)">Sandman</span></h2>
+          <p>Sandman is a Filipino custom toy artist focused on <span class="highlight">hand-painted figures, kitbashes, repaints, and collectible art models</span>. His work combines model-making, airbrush painting, detailing, and character customization to turn ordinary figures into one-of-a-kind collector pieces.</p>
+          <p>Every build starts with a conversation — your vision, your favorite character, your dream design — and ends with a display-ready piece made to last. No two customs are ever the same.</p>
+          <div class="about-meta">
+            <div class="am-block">
+              <h4>Signature Style</h4>
+              <p>Clean color separation, weathered detailing, and a collector-grade finish on every piece.</p>
+            </div>
+            <div class="am-block">
+              <h4>Tools &amp; Materials</h4>
+              <p>Airbrush &amp; acrylics, hand-detailing, panel lining, primers and protective topcoats.</p>
+            </div>
+          </div>
+          <div class="about-socials">
+            <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+            <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+            <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACT / COMMISSION INQUIRY ====================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="sec-index">SEC.06 / CONTACT</span>
+        <span class="eyebrow">Start a Commission</span>
+        <h2 class="section-title">Request a <span class="amber">Custom Build</span></h2>
+        <p class="section-subtitle">Tell me about your figure and your vision. The more detail and reference you share, the more accurate your quote.</p>
+      </div>
+      <div class="contact-grid">
+        <!-- Commission form. Uses mailto: so it works on GitHub Pages with no backend.
+             To collect submissions properly later, swap the action for a Formspree
+             endpoint:  action="https://formspree.io/f/yourID" method="POST"  -->
+        <form class="commission-form reveal" id="commissionForm" method="POST" enctype="text/plain">
+          <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+          <div class="field"><label>Email or Messenger</label><input type="text" name="contact" placeholder="you@email.com / m.me link" required></div>
+          <div class="field"><label>Type of Commission</label>
+            <select name="commission_type">
+              <option>Repaint</option>
+              <option>Kitbash Build</option>
+              <option>Full Custom Build</option>
+              <option>Mecha Custom</option>
+              <option>Character Custom</option>
+              <option>Figure Restoration</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label>Figure / Model to Customize</label><input type="text" name="figure" placeholder="e.g. Mego RX-78, 1/144 Gundam"></div>
+          <div class="field"><label>Budget Range</label><input type="text" name="budget" placeholder="e.g. ₱2,000 – ₱5,000"></div>
+          <div class="field"><label>Deadline / Target Date</label><input type="text" name="deadline" placeholder="e.g. before December, flexible"></div>
+          <div class="field full"><label>Reference Images</label><input type="text" name="references" placeholder="Paste links to reference photos (or mention you'll send them via Messenger)"></div>
+          <div class="field full"><label>Additional Notes</label><textarea name="notes" placeholder="Describe your vision — colors, style, character, finish, anything else I should know."></textarea></div>
+          <div class="full submit-row">
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <span class="form-note">Opens your email app · or reach me directly →</span>
+          </div>
+        </form>
+
+        <div class="contact-side reveal">
+          <h3>Let's Connect</h3>
+          <p>Questions about a custom project, or want to see more work? Reach out on any channel.</p>
+          <ul class="contact-links">
+            <li><a href="#" data-social="email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span><span class="cl-label">Email</span><span class="cl-val" data-social-text="email">your@email.com</span></span></a></li>
+            <li><a href="#" data-social="messenger" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.36 2 1.69 6.03 1.69 11.05c0 2.84 1.42 5.37 3.63 7.02v3.43l3.27-1.8c.87.24 1.8.37 2.76.37 5.64 0 10.22-4.03 10.22-9.02S17.64 2 12 2zm1.07 12.15l-2.6-2.77-5.08 2.77 5.58-5.92 2.67 2.77 5.01-2.77-5.58 5.92z"/></svg><span><span class="cl-label">Messenger</span><span class="cl-val">Message me on Facebook</span></span></a></li>
+            <li><a href="#" data-social="instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg><span><span class="cl-label">Instagram</span><span class="cl-val" data-social-text="instagram">@sandman.customs</span></span></a></li>
+            <li><a href="#" data-social="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg><span><span class="cl-label">Facebook</span><span class="cl-val">Sandman Workshop</span></span></a></li>
+          </ul>
+          <div class="slots-banner">
+            <strong>LIMITED BUILD SLOTS</strong>
+            <p>Commissions open in small batches to keep every piece collector-grade. Reserve early.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><span class="mark" aria-hidden="true"></span>SAND<b>MAN</b></div>
+        <p>Hand-painted custom figures and collectible art models from the Sandman workshop.</p>
+      </div>
+      <div class="footer-socials">
+        <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+        <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+        <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 SANDMAN WORKSHOP // ALL CUSTOMS ARE ONE-OFF, HAND-PAINTED COLLECTOR PIECES.</div>
+  </footer>
+
+  <!-- ====================== MODAL / LIGHTBOX (SPEC SHEET) ====================== -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      <div class="modal-carousel" id="modalCarousel">
+        <button class="carousel-btn prev" onclick="carouselNav(-1)" aria-label="Previous">&#10094;</button>
+        <button class="carousel-btn next" onclick="carouselNav(1)" aria-label="Next">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="modal-body">
+        <div class="toy-type" id="modalType"></div>
+        <h3 id="modalTitle"></h3>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       SOCIAL / CONTACT LINKS — single source of truth.
+       Edit these once and every button/link on the page updates.
+       ========================================================================= */
+    const SOCIAL = {
+      instagram: 'https://instagram.com/yourpage',   // REPLACE
+      facebook:  'https://facebook.com/yourpage',     // REPLACE
+      messenger: 'https://m.me/yourpage',             // REPLACE
+      email:     'your@email.com',                    // REPLACE
+      instagramHandle: '@sandman.customs'             // REPLACE — display text only
+    };
+
+    /* =========================================================================
+       PROJECT DATA — your customs.
+       Fields:  title, type, base, scale, materials, status, desc, media[]
+       status:  'available' | 'sold' | 'commissioned' | 'personal'
+       Lines marked  // REPLACE  are best-guesses — correct with real details.
+       To ADD a piece: copy a block, give it a new key, drop photos in
+       ../portfolio_materials/ and point `media` at them.
+       NOTE: this page is in a subfolder, so every src begins with ../
+       ========================================================================= */
+    const portfolioData = {
+      mego: {
+        title: 'Custom Mego RX-78',
+        type: 'Full Repaint · Mecha Custom',
+        base: 'Mego RX-78 Gundam',
+        scale: '8-inch (Mego scale)',        // REPLACE if different
+        materials: 'Acrylic paint, airbrush, panel lining, topcoat',
+        status: 'personal',
+        desc: 'A hand-painted RX-78 custom transformed from bare primer gray to a clean, mecha-inspired finish with panel lining and a collector-style display presentation.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78(2).jpg' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78.mp4' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78(2).mp4' },
+        ]
+      },
+      reaver: {
+        title: 'Custom Reaver',
+        type: 'Custom Repaint · Character Custom',
+        base: 'Reaver figure',               // REPLACE with exact base figure
+        scale: '~7-inch',                     // REPLACE
+        materials: 'Acrylic paint, airbrush, gloss & matte topcoat, hand detailing',
+        status: 'personal',
+        desc: 'A detailed character custom with a striking red jacket, mechanical prosthetic limbs, and a dual-blade weapon system. Gloss and matte finishes play organic against mechanical.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(1).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(3).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(4).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(5).jpg' },
+        ]
+      },
+      kaizer: {
+        title: 'Custom KAIZER',
+        type: 'Full Custom Build',
+        base: 'Kitbashed build',             // REPLACE with base parts/figure
+        scale: '~12-inch',                    // REPLACE
+        materials: 'Mixed media, airbrush, hand detailing, topcoat',  // REPLACE
+        status: 'commissioned',               // REPLACE if not commissioned
+        desc: 'A full custom build showcased in a turntable video — spin through it to catch the detail work from every angle.',
+        media: [
+          { type: 'video', src: '../portfolio_materials/vids/Custom KAIZER.mp4' },
+        ]
+      },
+      megazord: {
+        title: 'Custom Mego Megazord',
+        type: 'Repaint · Mecha Custom',
+        base: 'Mego Megazord 12"',
+        scale: '12-inch',
+        materials: 'Acrylic paint, airbrush, panel work, topcoat',  // REPLACE
+        status: 'personal',
+        desc: 'A 12-inch Mego Megazord given the full custom treatment — hand-painted detailing, panel work, and clean color separation that bring this classic mech to life from every angle.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/mega_front.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008070.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008071.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008073.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008076.jpg' },
+        ]
+      },
+
+      /* ---- TEMPLATE CARD — copy this, rename the key, add your photos ---- */
+      template1: {
+        template: true,
+        title: 'Your Next Custom',
+        type: 'Kitbash / Repaint / Custom Build',
+        base: 'Base figure here',
+        scale: 'Scale / size',
+        materials: 'Paints, tools, finishes used',
+        status: 'available',
+        desc: 'Short collector-style description of the build goes here. Replace this whole block with a real piece.',
+        media: []  // add { type:'image', src:'../portfolio_materials/img/your-photo.jpg' }
+      },
+      template2: {
+        template: true,
+        title: 'Commission Slot Open',
+        type: 'Commissioned Build',
+        base: 'Your figure',
+        scale: 'Any scale',
+        materials: 'Built to spec',
+        status: 'available',
+        desc: 'Reserve a build slot — your figure, your character, your vision. Replace with a finished commission once complete.',
+        media: []
+      }
+    };
+
+    const STATUS_LABEL = {
+      available: 'Available',
+      sold: 'Sold',
+      commissioned: 'Commissioned',
+      personal: 'Personal Work'
+    };
+
+    /* part-number prefixes for the spec-card header (industrial flavour) */
+    const PART_PREFIX = {
+      mego: 'BUILD No. 001 / RX-78',
+      reaver: 'BUILD No. 002 / RVR',
+      kaizer: 'BUILD No. 003 / KZR',
+      megazord: 'BUILD No. 004 / MGZ'
+    };
+
+    /* ---------- Apply social links from the SOCIAL object ---------- */
+    function hrefFor(key) {
+      if (key === 'email') return 'mailto:' + SOCIAL.email;
+      if (key === 'messenger') return SOCIAL.messenger;
+      return SOCIAL[key] || '#';
+    }
+    document.querySelectorAll('[data-social]').forEach(el => {
+      el.setAttribute('href', hrefFor(el.getAttribute('data-social')));
+    });
+    document.querySelectorAll('[data-social-text]').forEach(el => {
+      const k = el.getAttribute('data-social-text');
+      el.textContent = k === 'email' ? SOCIAL.email : SOCIAL.instagramHandle;
+    });
+
+    /* ---------- Commission form → mailto ---------- */
+    const cForm = document.getElementById('commissionForm');
+    if (cForm) {
+      cForm.setAttribute('action', 'mailto:' + SOCIAL.email);
+      cForm.addEventListener('submit', () => {
+        // mailto handles the rest; subject line for convenience
+        cForm.setAttribute('action', 'mailto:' + SOCIAL.email + '?subject=Custom%20Build%20Inquiry');
+      });
+    }
+
+    /* ---------- Render the Featured Customs cards ---------- */
+    function statusBadge(status) {
+      const label = STATUS_LABEL[status] || 'Personal Work';
+      return `<span class="status status--${status}">${label}</span>`;
+    }
+    function renderCards() {
+      const grid = document.getElementById('customsGrid');
+      grid.innerHTML = Object.keys(portfolioData).map(id => {
+        const p = portfolioData[id];
+        if (p.template) {
+          return `
+          <div class="toy-card template reveal" onclick="openModal('${id}')" tabindex="0" role="button" aria-label="${p.title}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('${id}')}">
+            <div class="toy-media">${statusBadge(p.status)}＋ Add your custom here</div>
+            <div class="toy-body">
+              <div class="toy-type">${p.type}</div>
+              <h3>${p.title}</h3>
+              <p class="toy-desc">${p.desc}</p>
+            </div>
+          </div>`;
+        }
+        const first = p.media[0];
+        const thumb = first && first.type === 'video'
+          ? `<video src="${first.src}" muted playsinline preload="metadata"></video>`
+          : `<img src="${first ? first.src : ''}" alt="${p.title}">`;
+        const partNo = PART_PREFIX[id] || 'BUILD No. ---';
+        return `
+        <div class="toy-card reveal" onclick="openModal('${id}')" tabindex="0" role="button" aria-label="${p.title} — open spec sheet" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('${id}')}">
+          <div class="toy-media">
+            ${statusBadge(p.status)}
+            ${thumb}
+            <span class="crosshair" aria-hidden="true"></span>
+            <span class="part-no">${partNo}</span>
+            <span class="view-build">View Build
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="toy-body">
+            <div class="toy-type">${p.type}</div>
+            <h3>${p.title}</h3>
+            <ul class="toy-specs">
+              <li><span>Base</span>${p.base}</li>
+              <li><span>Scale</span>${p.scale}</li>
+              <li><span>Materials</span>${p.materials}</li>
+            </ul>
+            <p class="toy-desc">${p.desc}</p>
+          </div>
+        </div>`;
+      }).join('');
+      // observe the freshly-rendered cards for scroll reveal
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    }
+
+    /* ---------- Modal / carousel (spec sheet) ---------- */
+    let currentSlide = 0;
+    let currentMedia = [];
+
+    function openModal(projectId) {
+      const project = portfolioData[projectId];
+      if (!project) return;
+
+      document.getElementById('modalType').textContent = project.type || '';
+      document.getElementById('modalTitle').textContent = project.title;
+      document.getElementById('modalDesc').textContent = project.desc;
+
+      // Specs
+      const specs = [
+        ['Base', project.base],
+        ['Scale', project.scale],
+        ['Materials', project.materials],
+        ['Status', STATUS_LABEL[project.status] || '']
+      ].filter(r => r[1]);
+      document.getElementById('modalSpecs').innerHTML = specs.map(
+        r => `<div class="ms-row"><span>${r[0]}</span><span class="ms-val">${r[1]}</span></div>`
+      ).join('');
+
+      const carousel = document.getElementById('modalCarousel');
+      carousel.querySelectorAll('img, video').forEach(el => el.remove());
+
+      currentMedia = project.media || [];
+      currentSlide = 0;
+
+      const dotsContainer = document.getElementById('carouselDots');
+      dotsContainer.innerHTML = '';
+
+      if (currentMedia.length === 0) {
+        const ph = document.createElement('img');
+        ph.alt = 'No photos yet';
+        ph.src = 'data:image/svg+xml,' + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'><rect width='100%' height='100%' fill='%230a0a08'/><text x='50%' y='50%' fill='%23ff5b1f' font-family='monospace' font-size='22' text-anchor='middle'>Add photos to this build</text></svg>");
+        ph.classList.add('active');
+        carousel.insertBefore(ph, carousel.querySelector('.carousel-btn.prev'));
+      }
+
+      currentMedia.forEach((item, i) => {
+        let el;
+        if (item.type === 'image') {
+          el = document.createElement('img');
+          el.src = item.src; el.alt = project.title;
+        } else {
+          el = document.createElement('video');
+          el.src = item.src; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+        }
+        if (i === 0) el.classList.add('active');
+        carousel.insertBefore(el, carousel.querySelector('.carousel-btn.prev'));
+
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      const showNav = currentMedia.length > 1;
+      carousel.querySelectorAll('.carousel-btn').forEach(btn => btn.style.display = showNav ? 'block' : 'none');
+
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('#modalCarousel video').forEach(v => v.pause());
+    }
+
+    function goToSlide(index) {
+      const carousel = document.getElementById('modalCarousel');
+      const items = carousel.querySelectorAll('img, video');
+      const dots = document.querySelectorAll('#carouselDots span');
+      if (!items.length) return;
+
+      if (items[currentSlide] && items[currentSlide].tagName === 'VIDEO') items[currentSlide].pause();
+      items[currentSlide].classList.remove('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+
+      currentSlide = index;
+      if (currentSlide >= items.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = items.length - 1;
+
+      items[currentSlide].classList.add('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
+    function carouselNav(dir) { goToSlide(currentSlide + dir); }
+
+    /* ---------- Nav: hamburger + scrolled state + active link ---------- */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }));
+
+    const nav = document.getElementById('nav');
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current && !link.classList.contains('nav-cta'));
+      });
+    });
+
+    /* ---------- Keyboard controls ---------- */
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('modal').classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') carouselNav(-1);
+      if (e.key === 'ArrowRight') carouselNav(1);
+    });
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Init ---------- */
+    renderCards();
+  </script>
+</body>
+</html>

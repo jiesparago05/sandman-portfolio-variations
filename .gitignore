@@ -1,0 +1,14 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Node / scratch
+node_modules/
+package.json
+package-lock.json
+*.log
+.*.mjs
+shot-*.png
+hero-*.png
+customs-*.png
+landing.png

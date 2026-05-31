@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANDMAN — Custom Toy Artist | Hand-Painted Figures &amp; Collectible Art Models</title>
+  <meta name="description" content="SANDMAN is a Filipino custom toy artist crafting hand-painted figures, repaints, kitbashes, and collectible art models. One-off customs and commissioned builds for serious collectors.">
+  <meta name="author" content="Sandman">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!--
+  ============================================================================
+   EDIT ME — quick guide to making this site yours
+  ============================================================================
+   1. SOCIAL / CONTACT LINKS: edit the `SOCIAL` object in the <script> at the
+      bottom (Instagram, Facebook, email, Messenger). Changing them there
+      updates every button on the page automatically.
+   2. PROJECT DETAILS + PHOTOS: edit the `portfolioData` object in the <script>.
+      Lines marked  // REPLACE  are best-guesses — correct them with real info.
+   3. HERO IMAGE/VIDEO: search for "HERO MEDIA" below.
+   4. BEFORE & AFTER photos: search for "REPLACE: before" — drop in your shots.
+   5. ARTIST + WORKSHOP photos: search for "REPLACE: artist photo".
+   All images live in the  ../portfolio_materials/  folder (this page is in a
+   subfolder, so every asset path is prefixed with ../).
+  ============================================================================
+  -->
+
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 500; line-height: 1.08; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    section { padding: clamp(72px, 11vw, 150px) 32px; position: relative; }
+    .container { max-width: 1240px; margin: 0 auto; }
+
+    /* === COLOR PALETTE — warm paper / editorial light === */
+    :root {
+      --bg:        #f7f4ef;   /* warm paper */
+      --surface:   #ffffff;   /* cards */
+      --raised:    #fbf9f5;   /* raised panels */
+      --text:      #1a1a1a;   /* near-black ink */
+      --muted:     #6b665e;   /* warm grey body */
+      --faint:     #9c968b;   /* placards / captions */
+      --accent:    #b5654a;   /* muted terracotta / clay */
+      --accent-dk: #97503a;
+      --line:      rgba(26, 26, 26, 0.12);   /* hairline */
+      --line-soft: rgba(26, 26, 26, 0.07);
+    }
+
+    /* === SHARED HELPERS === */
+    .placard {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 22px;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      color: var(--text);
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+      font-weight: 500;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 0;
+      font-size: 1.04rem;
+    }
+    .section-head { margin-bottom: 64px; max-width: 760px; }
+    .hairline { height: 1px; background: var(--line); width: 100%; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 32px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 0;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line);
+    }
+    .btn-ghost:hover {
+      border-color: var(--text);
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(247, 244, 239, 0.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(247, 244, 239, 0.94);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 78px;
+      padding: 0 32px;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.16em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo b { font-weight: 600; font-style: italic; color: var(--accent); }
+    .logo .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 32px;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.78;
+      transition: color 0.25s, opacity 0.25s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); opacity: 1; }
+    .nav-links .nav-cta {
+      padding: 10px 22px;
+      border: 1px solid var(--text);
+      color: var(--text);
+      opacity: 1;
+    }
+    .nav-links .nav-cta:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 78px; left: 0; right: 0;
+        background: rgba(247, 244, 239, 0.99);
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px 32px;
+        gap: 22px;
+      }
+      .nav-links.open { display: flex; }
+    }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 32px 80px;
+      position: relative;
+    }
+    .hero-grid {
+      max-width: 1240px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(36px, 6vw, 84px);
+      align-items: center;
+    }
+    .hero-copy { max-width: 600px; }
+    .hero-tag {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.34em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-tag::before { content: ''; width: 46px; height: 1px; background: var(--accent); display: inline-block; }
+    .hero-copy h1 {
+      font-size: clamp(3.6rem, 9vw, 7rem);
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .hero-copy h1 .stroke { font-style: italic; color: var(--accent); }
+    .hero-lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      font-style: italic;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 42px;
+      max-width: 480px;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; }
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 60px;
+      flex-wrap: wrap;
+    }
+    .hero-stats .stat h3 {
+      font-size: 2.8rem;
+      color: var(--text);
+      line-height: 1;
+      font-weight: 500;
+    }
+    .hero-stats .stat h3 em { font-style: italic; color: var(--accent); }
+    .hero-stats .stat p {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: var(--faint);
+      margin-top: 10px;
+    }
+    .hero-figure {
+      position: relative;
+    }
+    .hero-figure .hero-frame {
+      overflow: hidden;
+      background: #e9e4db;
+      aspect-ratio: 4 / 5;
+      box-shadow: 0 30px 70px rgba(26, 22, 18, 0.16);
+    }
+    .hero-figure .hero-frame img,
+    .hero-figure .hero-frame video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+    .hero-figure .hero-caption {
+      position: absolute;
+      bottom: -14px; left: -14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 12px 18px;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--faint);
+    }
+    .hero-figure .hero-caption b { color: var(--accent); font-weight: 600; }
+    .hero-figure .plate-no {
+      position: absolute;
+      top: -22px; right: 4px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--faint);
+    }
+    .scroll-cue {
+      position: absolute;
+      bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      animation: bob 2.2s infinite;
+    }
+    .scroll-cue svg { width: 18px; height: 18px; stroke: var(--accent); }
+    @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0);} 50% { transform: translateX(-50%) translateY(8px);} }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-figure { max-width: 440px; }
+      .scroll-cue { display: none; }
+    }
+
+    /* === FEATURED CUSTOMS === */
+    #customs { background: var(--bg); }
+    .customs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px 36px;
+    }
+    .toy-card {
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+    }
+    .toy-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #e9e4db;
+      margin-bottom: 20px;
+    }
+    .toy-media img, .toy-media video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .toy-card:hover .toy-media img,
+    .toy-card:hover .toy-media video { transform: scale(1.05); }
+    .plate-num {
+      position: absolute;
+      top: 16px; left: 16px;
+      z-index: 3;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.5rem;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+      line-height: 1;
+    }
+    .status {
+      position: absolute;
+      top: 16px; right: 16px;
+      z-index: 3;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      backdrop-filter: blur(4px);
+    }
+    .status--available  { color: var(--accent-dk); }
+    .status--sold       { color: var(--faint); }
+    .status--commissioned { color: var(--accent-dk); }
+    .status--personal   { color: var(--text); }
+
+    .view-build {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 22px;
+      background: linear-gradient(0deg, rgba(26,22,18,0.42) 0%, rgba(26,22,18,0) 45%);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .view-build span { display: inline-flex; align-items: center; gap: 8px; }
+    .view-build svg { width: 14px; height: 14px; stroke: #fff; }
+    .toy-card:hover .view-build { opacity: 1; }
+
+    .toy-body { padding: 0; }
+    .toy-type {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.64rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .toy-body h3 {
+      font-size: 1.85rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .toy-specs { list-style: none; margin-bottom: 16px; border-top: 1px solid var(--line-soft); }
+    .toy-specs li {
+      display: flex;
+      gap: 12px;
+      font-size: 0.84rem;
+      color: var(--text);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .toy-specs li span {
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.6rem;
+      font-weight: 600;
+      min-width: 82px;
+      padding-top: 3px;
+      flex-shrink: 0;
+    }
+    .toy-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
+
+    .toy-card.template .toy-media {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--raised);
+      border: 1px dashed var(--line);
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 0.68rem;
+      text-align: center;
+      padding: 24px;
+    }
+    .toy-card.template .view-build { display: none; }
+
+    @media (max-width: 1024px) { .customs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .customs-grid { grid-template-columns: 1fr; } }
+
+    /* === COLLECTIONS / BUILD TYPES === */
+    #collections { background: var(--surface); }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    .collection-tile {
+      background: var(--surface);
+      padding: 40px 34px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition: background 0.35s;
+      position: relative;
+      display: block;
+    }
+    .collection-tile:hover { background: var(--raised); }
+    .collection-tile .ct-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .collection-tile h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.55rem;
+      letter-spacing: 0;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .collection-tile p { font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 860px) { .collections-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .collections-grid { grid-template-columns: 1fr; } }
+
+    /* === BEFORE & AFTER === */
+    #before-after { background: var(--bg); }
+    .ba-list { display: flex; flex-direction: column; gap: 56px; }
+    .ba-card { padding: 0; }
+    .ba-stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .ba-stage { position: relative; }
+    .ba-stage .ba-frame {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #e9e4db;
+    }
+    .ba-stage .ba-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .ba-stage.placeholder .ba-frame {
+      border: 1px dashed var(--line);
+      background: var(--raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 18px;
+    }
+    .ba-stage .ba-label {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 5px 11px;
+      background: rgba(255,255,255,0.92);
+      color: var(--accent-dk);
+      backdrop-filter: blur(4px);
+    }
+    .ba-note {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+    .ba-note .ba-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .ba-note p { font-size: 0.92rem; color: var(--muted); max-width: 720px; }
+    .ba-note .ba-arrow { color: var(--accent); font-size: 1.4rem; line-height: 1.2; flex-shrink: 0; }
+    @media (max-width: 720px) {
+      .ba-stages { grid-template-columns: 1fr; }
+    }
+
+    /* === COMMISSION PROCESS === */
+    #process { background: var(--surface); }
+    .process-wrap { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 880px; }
+    .step {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 28px;
+      padding: 30px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .step:first-of-type { border-top: 1px solid var(--line); }
+    .step .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 2.6rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .step h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.55rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .step p { font-size: 0.94rem; color: var(--muted); }
+    .process-cta { margin-top: 52px; }
+    @media (max-width: 540px) {
+      .step { grid-template-columns: 56px 1fr; gap: 18px; }
+      .step .step-num { font-size: 2.1rem; }
+    }
+
+    /* === ABOUT === */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: clamp(40px, 6vw, 72px);
+      align-items: center;
+    }
+    .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .about-photos .ph {
+      border: 1px dashed var(--line);
+      background: var(--raised);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 16px;
+      overflow: hidden;
+    }
+    .about-photos .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photos .ph.tall { margin-top: 34px; }
+    .about-text h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); color: var(--text); margin-bottom: 24px; font-weight: 500; }
+    .about-text h2 em { font-style: italic; color: var(--accent); }
+    .about-text p { margin-bottom: 18px; color: var(--muted); line-height: 1.9; }
+    .about-text .highlight { color: var(--text); font-weight: 500; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1em; }
+    .about-meta {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .about-meta .am-block h4 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.64rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .about-meta .am-block p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+    .about-socials { display: flex; gap: 14px; margin-top: 32px; }
+    .about-socials a {
+      width: 44px; height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, border-color 0.25s, transform 0.25s;
+    }
+    .about-socials a:hover { background: var(--text); border-color: var(--text); transform: translateY(-3px); }
+    .about-socials svg { width: 18px; height: 18px; fill: var(--text); transition: fill 0.25s; }
+    .about-socials a:hover svg { fill: var(--bg); }
+    @media (max-width: 820px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-photos { max-width: 440px; }
+    }
+
+    /* === CONTACT === */
+    #contact { background: var(--surface); }
+    .contact-grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 60px; }
+    .commission-form { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .commission-form .full { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--faint);
+      margin-bottom: 9px;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.25s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--faint); }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-bottom-color: var(--accent);
+    }
+    .field textarea { resize: vertical; min-height: 110px; }
+    .field select { appearance: none; cursor: pointer; }
+    .form-note { font-size: 0.78rem; color: var(--muted); }
+    .commission-form .submit-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+    .contact-side h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .contact-side > p { color: var(--muted); margin-bottom: 30px; font-size: 0.95rem; }
+    .contact-links { list-style: none; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+    .contact-links li a {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      transition: padding 0.25s, color 0.25s;
+    }
+    .contact-links li a:hover { padding-left: 8px; }
+    .contact-links li a:hover .cl-val { color: var(--accent); }
+    .contact-links svg { width: 20px; height: 20px; fill: var(--accent); flex-shrink: 0; }
+    .contact-links .cl-label {
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.58rem;
+      font-weight: 600;
+      color: var(--faint);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .contact-links .cl-val { color: var(--text); font-size: 0.94rem; transition: color 0.25s; }
+    .slots-banner {
+      margin-top: 32px;
+      padding: 20px 0 0;
+      border-top: 2px solid var(--accent);
+    }
+    .slots-banner strong { color: var(--accent); font-family: 'Inter', sans-serif; letter-spacing: 0.16em; font-size: 0.7rem; text-transform: uppercase; }
+    .slots-banner p { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 480px) {
+      .commission-form { grid-template-columns: 1fr; }
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      padding: 64px 32px 40px;
+    }
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .footer-brand .logo { font-size: 1.6rem; margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.84rem; color: var(--muted); max-width: 340px; }
+    .footer-socials { display: flex; gap: 14px; }
+    .footer-socials a {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, transform 0.25s, border-color 0.25s;
+    }
+    .footer-socials a:hover { background: var(--text); border-color: var(--text); transform: translateY(-3px); }
+    .footer-socials svg { width: 17px; height: 17px; fill: var(--text); transition: fill 0.25s; }
+    .footer-socials a:hover svg { fill: var(--bg); }
+    .footer-bottom {
+      max-width: 1240px;
+      margin: 40px auto 0;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      color: var(--faint);
+    }
+
+    /* === MODAL / LIGHTBOX === */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 2000;
+      background: rgba(247, 244, 239, 0.82);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      max-width: 1000px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 40px 90px rgba(26, 22, 18, 0.22);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 18px;
+      font-size: 1.8rem;
+      color: var(--text);
+      cursor: pointer;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      z-index: 10;
+      line-height: 1;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      transition: color 0.25s, background 0.25s;
+    }
+    .modal-close:hover { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .modal-carousel {
+      position: relative;
+      background: #ece7df;
+      overflow: hidden;
+    }
+    .modal-carousel img, .modal-carousel video {
+      width: 100%;
+      max-height: 540px;
+      object-fit: contain;
+      display: none;
+    }
+    .modal-carousel img.active, .modal-carousel video.active { display: block; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 1.1rem;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+      z-index: 5;
+    }
+    .carousel-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+    .carousel-dots { text-align: center; padding: 16px; background: var(--surface); }
+    .carousel-dots span {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--line);
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .carousel-dots span.active { background: var(--accent); transform: scale(1.25); }
+    .modal-body { padding: 32px 40px 40px; }
+    .modal-body .toy-type { margin-bottom: 8px; }
+    .modal-body h3 { font-size: 2.4rem; color: var(--text); margin-bottom: 24px; font-weight: 500; }
+    .modal-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 32px;
+      margin-bottom: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .modal-specs .ms-row { display: flex; gap: 12px; font-size: 0.9rem; padding: 11px 0; border-bottom: 1px solid var(--line-soft); }
+    .modal-specs .ms-row span {
+      color: var(--faint);
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.6rem;
+      font-weight: 600;
+      min-width: 74px;
+      padding-top: 3px;
+      flex-shrink: 0;
+    }
+    .modal-specs .ms-row .ms-val { color: var(--text); }
+    .modal-body p.modal-desc { color: var(--muted); line-height: 1.85; font-size: 1rem; }
+    @media (max-width: 768px) {
+      .modal { max-height: 94vh; }
+      .modal-carousel img, .modal-carousel video { max-height: 320px; }
+      .modal-specs { grid-template-columns: 1fr; }
+      .modal-body { padding: 26px 24px 32px; }
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scroll-cue { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* === FOCUS STYLES === */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    select:focus-visible, textarea:focus-visible, .toy-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ====================== NAVIGATION ====================== -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="logo"><span class="dot"></span>SAND<b>MAN</b></a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#customs">Customs</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#before-after">Before / After</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Start a Commission</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====================== HERO ====================== -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="hero-tag">Sandman Workshop · Custom Toy Artist</p>
+        <h1>SAND<span class="stroke">MAN</span></h1>
+        <p class="hero-lead">Custom figures built from dreams, dust, paint, and plastic.</p>
+        <p class="hero-sub">Hand-painted one-off customs, repaints, and kitbashed figures — turning ordinary models into display-ready collector pieces from the Sandman workshop.</p>
+        <div class="hero-ctas">
+          <a href="#customs" class="btn btn-primary">View Customs</a>
+          <a href="#contact" class="btn btn-ghost">Start a Commission</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><h3>100<em>%</em></h3><p>Hand-Painted</p></div>
+          <div class="stat"><h3>1<em>-of-</em>1</h3><p>Every Build</p></div>
+          <div class="stat"><h3><em>Open</em></h3><p>For Commissions</p></div>
+        </div>
+      </div>
+      <!-- HERO MEDIA — swap the <img> src for your best shot, or replace the whole
+           .hero-frame contents with a muted autoplay loop:
+           <video autoplay muted loop playsinline
+                  src="../portfolio_materials/vids/Custom KAIZER.mp4"></video> -->
+      <div class="hero-figure reveal">
+        <span class="plate-no">Plate I</span>
+        <div class="hero-frame">
+          <img src="../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg" alt="Featured custom figure by Sandman"><!-- REPLACE: hero image -->
+        </div>
+        <div class="hero-caption">Custom Reaver — <b>Hand-Painted</b></div>
+      </div>
+    </div>
+    <a href="#customs" class="scroll-cue">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M7 10l5 5 5-5"/></svg>
+    </a>
+  </section>
+
+  <!-- ====================== FEATURED CUSTOMS ====================== -->
+  <section id="customs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="placard">The Collection</span>
+        <h2 class="section-title">Featured <em>Customs</em></h2>
+        <p class="section-subtitle">One-off builds, repaints, and kitbashes — each piece documented and display-ready. Select any figure to view the full build gallery and catalog entry.</p>
+      </div>
+      <div class="customs-grid" id="customsGrid">
+        <!-- Cards are rendered from `portfolioData` by the script below. -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COLLECTIONS / BUILD TYPES ====================== -->
+  <section id="collections">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="placard">What I Build</span>
+        <h2 class="section-title">Collections &amp; <em>Build Types</em></h2>
+        <p class="section-subtitle">From mecha repaints to full scratch builds — the kinds of work that come out of the Sandman workshop.</p>
+      </div>
+      <div class="collections-grid">
+        <a href="#customs" class="collection-tile reveal"><div class="ct-num">01</div><h3>Mecha Customs</h3><p>Gundam, mechs, and robot figures with clean panel work and battle-worn detailing.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-num">02</div><h3>Character Customs</h3><p>One-of-a-kind character figures — repurposed, repainted, and brought to life.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-num">03</div><h3>Repaints</h3><p>Full strip-and-repaint work — from bare primer to display-grade finishes.</p></a>
+        <a href="#customs" class="collection-tile reveal"><div class="ct-num">04</div><h3>Kitbash Builds</h3><p>Parts from many figures fused into a single original, never-seen-before piece.</p></a>
+        <a href="#contact" class="collection-tile reveal"><div class="ct-num">05</div><h3>Commissioned Works</h3><p>Built to your vision — your figure, your character, your dream design.</p></a>
+        <a href="#before-after" class="collection-tile reveal"><div class="ct-num">06</div><h3>Work-in-Progress</h3><p>Restorations and in-progress builds — follow a figure's transformation.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== BEFORE & AFTER ====================== -->
+  <section id="before-after">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="placard">The Transformation</span>
+        <h2 class="section-title">Before &amp; <em>After</em></h2>
+        <p class="section-subtitle">Collectors love the journey. Here's how a stock figure becomes a one-off collector piece — from original, to work-in-progress, to final custom.</p>
+      </div>
+      <div class="ba-list">
+
+        <!-- BEFORE/AFTER ITEM 1 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Mego RX-78.jpg" alt="Final custom Mego RX-78"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">→</span>
+            <div>
+              <div class="ba-title">Mego RX-78 — Primer to Display-Ready</div>
+              <p>Stripped to bare plastic, primed, then hand-airbrushed with the classic RX-78 color scheme. Panel lining and a protective topcoat finish the piece. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BEFORE/AFTER ITEM 2 -->
+        <div class="ba-card reveal">
+          <div class="ba-stages">
+            <div class="ba-stage placeholder"><span class="ba-label">Original</span><div class="ba-frame">REPLACE: before photo<br>(stock figure)</div></div>
+            <div class="ba-stage placeholder"><span class="ba-label">WIP</span><div class="ba-frame">REPLACE: work-in-progress photo</div></div>
+            <div class="ba-stage"><span class="ba-label">Final</span><div class="ba-frame"><img src="../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg" alt="Final custom Reaver"></div></div>
+          </div>
+          <div class="ba-note">
+            <span class="ba-arrow">→</span>
+            <div>
+              <div class="ba-title">Custom Reaver — Full Character Repaint</div>
+              <p>Repainted from the base figure into a high-contrast custom with gloss and matte detailing across the jacket, limbs, and weapons. <!-- REPLACE: describe what changed --></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== COMMISSION PROCESS ====================== -->
+  <section id="process">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="placard">How It Works</span>
+        <h2 class="section-title">The Commission <em>Process</em></h2>
+        <p class="section-subtitle">A clear, collaborative process from first idea to finished figure — with progress updates at every stage.</p>
+      </div>
+      <div class="process-wrap">
+        <div class="step reveal"><div class="step-num">01</div><div><h3>Send Your Idea</h3><p>Share your concept and reference photos — the figure, the character, the look you're after.</p></div></div>
+        <div class="step reveal"><div class="step-num">02</div><div><h3>Review &amp; Assessment</h3><p>I review the figure, scale, and complexity to scope out exactly what the build will take.</p></div></div>
+        <div class="step reveal"><div class="step-num">03</div><div><h3>Quote &amp; Timeline</h3><p>You get a clear quotation and an estimated timeline before any work begins.</p></div></div>
+        <div class="step reveal"><div class="step-num">04</div><div><h3>Down Payment</h3><p>A down payment confirms your build slot and locks in the schedule.</p></div></div>
+        <div class="step reveal"><div class="step-num">05</div><div><h3>Work-in-Progress Updates</h3><p>I send progress photos throughout so you're part of the build the whole way.</p></div></div>
+        <div class="step reveal"><div class="step-num">06</div><div><h3>Final Photos &amp; Approval</h3><p>Final showcase photos for your approval before the piece is sealed and finished.</p></div></div>
+        <div class="step reveal"><div class="step-num">07</div><div><h3>Pickup, Delivery or Shipping</h3><p>Carefully packed and handed off — local pickup, delivery, or safe shipping.</p></div></div>
+      </div>
+      <div class="process-cta reveal">
+        <a href="#contact" class="btn btn-primary">Request a Custom Build</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== ABOUT THE ARTIST ====================== -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-photos reveal">
+          <div class="ph"><!-- REPLACE: artist photo -->Artist<br>Photo</div>
+          <div class="ph tall"><!-- REPLACE: workshop photo -->Workshop<br>Photo</div>
+        </div>
+        <div class="about-text reveal">
+          <span class="placard">The Artist</span>
+          <h2>About <em>Sandman</em></h2>
+          <p>Sandman is a Filipino custom toy artist focused on <span class="highlight">hand-painted figures, kitbashes, repaints, and collectible art models</span>. His work combines model-making, airbrush painting, detailing, and character customization to turn ordinary figures into one-of-a-kind collector pieces.</p>
+          <p>Every build starts with a conversation — your vision, your favorite character, your dream design — and ends with a display-ready piece made to last. No two customs are ever the same.</p>
+          <div class="about-meta">
+            <div class="am-block">
+              <h4>Signature Style</h4>
+              <p>Clean color separation, weathered detailing, and a collector-grade finish on every piece.</p>
+            </div>
+            <div class="am-block">
+              <h4>Tools &amp; Materials</h4>
+              <p>Airbrush &amp; acrylics, hand-detailing, panel lining, primers and protective topcoats.</p>
+            </div>
+          </div>
+          <div class="about-socials">
+            <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+            <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+            <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CONTACT / COMMISSION INQUIRY ====================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="placard">Start a Commission</span>
+        <h2 class="section-title">Request a <em>Custom Build</em></h2>
+        <p class="section-subtitle">Tell me about your figure and your vision. The more detail and reference you share, the more accurate your quote.</p>
+      </div>
+      <div class="contact-grid">
+        <!-- Commission form. Uses mailto: so it works on GitHub Pages with no backend.
+             To collect submissions properly later, swap the action for a Formspree
+             endpoint:  action="https://formspree.io/f/yourID" method="POST"  -->
+        <form class="commission-form reveal" id="commissionForm" method="POST" enctype="text/plain">
+          <div class="field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+          <div class="field"><label>Email or Messenger</label><input type="text" name="contact" placeholder="you@email.com / m.me link" required></div>
+          <div class="field"><label>Type of Commission</label>
+            <select name="commission_type">
+              <option>Repaint</option>
+              <option>Kitbash Build</option>
+              <option>Full Custom Build</option>
+              <option>Mecha Custom</option>
+              <option>Character Custom</option>
+              <option>Figure Restoration</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label>Figure / Model to Customize</label><input type="text" name="figure" placeholder="e.g. Mego RX-78, 1/144 Gundam"></div>
+          <div class="field"><label>Budget Range</label><input type="text" name="budget" placeholder="e.g. ₱2,000 – ₱5,000"></div>
+          <div class="field"><label>Deadline / Target Date</label><input type="text" name="deadline" placeholder="e.g. before December, flexible"></div>
+          <div class="field full"><label>Reference Images</label><input type="text" name="references" placeholder="Paste links to reference photos (or mention you'll send them via Messenger)"></div>
+          <div class="field full"><label>Additional Notes</label><textarea name="notes" placeholder="Describe your vision — colors, style, character, finish, anything else I should know."></textarea></div>
+          <div class="full submit-row">
+            <button type="submit" class="btn btn-primary">Send Inquiry</button>
+            <span class="form-note">Opens your email app · or reach me directly →</span>
+          </div>
+        </form>
+
+        <div class="contact-side reveal">
+          <h3>Let's Connect</h3>
+          <p>Questions about a custom project, or want to see more work? Reach out on any channel.</p>
+          <ul class="contact-links">
+            <li><a href="#" data-social="email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span><span class="cl-label">Email</span><span class="cl-val" data-social-text="email">your@email.com</span></span></a></li>
+            <li><a href="#" data-social="messenger" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.36 2 1.69 6.03 1.69 11.05c0 2.84 1.42 5.37 3.63 7.02v3.43l3.27-1.8c.87.24 1.8.37 2.76.37 5.64 0 10.22-4.03 10.22-9.02S17.64 2 12 2zm1.07 12.15l-2.6-2.77-5.08 2.77 5.58-5.92 2.67 2.77 5.01-2.77-5.58 5.92z"/></svg><span><span class="cl-label">Messenger</span><span class="cl-val">Message me on Facebook</span></span></a></li>
+            <li><a href="#" data-social="instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg><span><span class="cl-label">Instagram</span><span class="cl-val" data-social-text="instagram">@sandman.customs</span></span></a></li>
+            <li><a href="#" data-social="facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg><span><span class="cl-label">Facebook</span><span class="cl-val">Sandman Workshop</span></span></a></li>
+          </ul>
+          <div class="slots-banner">
+            <strong>LIMITED BUILD SLOTS</strong>
+            <p>Commissions open in small batches to keep every piece collector-grade. Reserve early.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><span class="dot"></span>SAND<b>MAN</b></div>
+        <p>Hand-painted custom figures and collectible art models from the Sandman workshop.</p>
+      </div>
+      <div class="footer-socials">
+        <a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
+        <a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a>
+        <a href="#" data-social="email" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Sandman Workshop. All customs are one-off, hand-painted collector pieces.</div>
+  </footer>
+
+  <!-- ====================== MODAL / LIGHTBOX ====================== -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Build gallery" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      <div class="modal-carousel" id="modalCarousel">
+        <button class="carousel-btn prev" onclick="carouselNav(-1)" aria-label="Previous">&#10094;</button>
+        <button class="carousel-btn next" onclick="carouselNav(1)" aria-label="Next">&#10095;</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="modal-body">
+        <div class="toy-type" id="modalType"></div>
+        <h3 id="modalTitle"></h3>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       SOCIAL / CONTACT LINKS — single source of truth.
+       Edit these once and every button/link on the page updates.
+       ========================================================================= */
+    const SOCIAL = {
+      instagram: 'https://instagram.com/yourpage',   // REPLACE
+      facebook:  'https://facebook.com/yourpage',     // REPLACE
+      messenger: 'https://m.me/yourpage',             // REPLACE
+      email:     'your@email.com',                    // REPLACE
+      instagramHandle: '@sandman.customs'             // REPLACE — display text only
+    };
+
+    /* =========================================================================
+       PROJECT DATA — your customs.
+       Fields:  title, type, base, scale, materials, status, desc, media[]
+       status:  'available' | 'sold' | 'commissioned' | 'personal'
+       Lines marked  // REPLACE  are best-guesses — correct with real details.
+       To ADD a piece: copy a block, give it a new key, drop photos in
+       ../portfolio_materials/ and point `media` at them.
+       ========================================================================= */
+    const portfolioData = {
+      mego: {
+        title: 'Custom Mego RX-78',
+        type: 'Full Repaint · Mecha Custom',
+        base: 'Mego RX-78 Gundam',
+        scale: '8-inch (Mego scale)',        // REPLACE if different
+        materials: 'Acrylic paint, airbrush, panel lining, topcoat',
+        status: 'personal',
+        desc: 'A hand-painted RX-78 custom transformed from bare primer gray to a clean, mecha-inspired finish with panel lining and a collector-style display presentation.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Mego RX-78(2).jpg' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78.mp4' },
+          { type: 'video', src: '../portfolio_materials/vids/Custom Mego RX-78(2).mp4' },
+        ]
+      },
+      reaver: {
+        title: 'Custom Reaver',
+        type: 'Custom Repaint · Character Custom',
+        base: 'Reaver figure',               // REPLACE with exact base figure
+        scale: '~7-inch',                     // REPLACE
+        materials: 'Acrylic paint, airbrush, gloss & matte topcoat, hand detailing',
+        status: 'personal',
+        desc: 'A detailed character custom with a striking red jacket, mechanical prosthetic limbs, and a dual-blade weapon system. Gloss and matte finishes play organic against mechanical.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver.jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(1).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(2).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(3).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(4).jpg' },
+          { type: 'image', src: '../portfolio_materials/img/Custom Reaver/Custom Reaver(5).jpg' },
+        ]
+      },
+      kaizer: {
+        title: 'Custom KAIZER',
+        type: 'Full Custom Build',
+        base: 'Kitbashed build',             // REPLACE with base parts/figure
+        scale: '~12-inch',                    // REPLACE
+        materials: 'Mixed media, airbrush, hand detailing, topcoat',  // REPLACE
+        status: 'commissioned',               // REPLACE if not commissioned
+        desc: 'A full custom build showcased in a turntable video — spin through it to catch the detail work from every angle.',
+        media: [
+          { type: 'video', src: '../portfolio_materials/vids/Custom KAIZER.mp4' },
+        ]
+      },
+      megazord: {
+        title: 'Custom Mego Megazord',
+        type: 'Repaint · Mecha Custom',
+        base: 'Mego Megazord 12"',
+        scale: '12-inch',
+        materials: 'Acrylic paint, airbrush, panel work, topcoat',  // REPLACE
+        status: 'personal',
+        desc: 'A 12-inch Mego Megazord given the full custom treatment — hand-painted detailing, panel work, and clean color separation that bring this classic mech to life from every angle.',
+        media: [
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/mega_front.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008070.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008071.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008073.jpg' },
+          { type: 'image', src: '../portfolio_materials/MEGO MEGAZORD 12 Inches/1000008076.jpg' },
+        ]
+      },
+
+      /* ---- TEMPLATE CARD — copy this, rename the key, add your photos ---- */
+      template1: {
+        template: true,
+        title: 'Your Next Custom',
+        type: 'Kitbash / Repaint / Custom Build',
+        base: 'Base figure here',
+        scale: 'Scale / size',
+        materials: 'Paints, tools, finishes used',
+        status: 'available',
+        desc: 'Short collector-style description of the build goes here. Replace this whole block with a real piece.',
+        media: []  // add { type:'image', src:'../portfolio_materials/img/your-photo.jpg' }
+      },
+      template2: {
+        template: true,
+        title: 'Commission Slot Open',
+        type: 'Commissioned Build',
+        base: 'Your figure',
+        scale: 'Any scale',
+        materials: 'Built to spec',
+        status: 'available',
+        desc: 'Reserve a build slot — your figure, your character, your vision. Replace with a finished commission once complete.',
+        media: []
+      }
+    };
+
+    const STATUS_LABEL = {
+      available: 'Available',
+      sold: 'Sold',
+      commissioned: 'Commissioned',
+      personal: 'Personal Work'
+    };
+
+    /* ---------- Apply social links from the SOCIAL object ---------- */
+    function hrefFor(key) {
+      if (key === 'email') return 'mailto:' + SOCIAL.email;
+      if (key === 'messenger') return SOCIAL.messenger;
+      return SOCIAL[key] || '#';
+    }
+    document.querySelectorAll('[data-social]').forEach(el => {
+      el.setAttribute('href', hrefFor(el.getAttribute('data-social')));
+    });
+    document.querySelectorAll('[data-social-text]').forEach(el => {
+      const k = el.getAttribute('data-social-text');
+      el.textContent = k === 'email' ? SOCIAL.email : SOCIAL.instagramHandle;
+    });
+
+    /* ---------- Commission form → mailto ---------- */
+    const cForm = document.getElementById('commissionForm');
+    if (cForm) {
+      cForm.setAttribute('action', 'mailto:' + SOCIAL.email);
+      cForm.addEventListener('submit', () => {
+        // mailto handles the rest; subject line for convenience
+        cForm.setAttribute('action', 'mailto:' + SOCIAL.email + '?subject=Custom%20Build%20Inquiry');
+      });
+    }
+
+    /* ---------- Render the Featured Customs cards ---------- */
+    function statusBadge(status) {
+      const label = STATUS_LABEL[status] || 'Personal Work';
+      return `<span class="status status--${status}">${label}</span>`;
+    }
+    function plateNum(i) {
+      return `<span class="plate-num">${String(i + 1).padStart(2, '0')}</span>`;
+    }
+    function renderCards() {
+      const grid = document.getElementById('customsGrid');
+      grid.innerHTML = Object.keys(portfolioData).map((id, i) => {
+        const p = portfolioData[id];
+        if (p.template) {
+          return `
+          <div class="toy-card template reveal" tabindex="0" role="button" aria-label="${p.title}" onclick="openModal('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('${id}')}">
+            <div class="toy-media">${plateNum(i)}${statusBadge(p.status)}＋ Add your custom here</div>
+            <div class="toy-body">
+              <div class="toy-type">${p.type}</div>
+              <h3>${p.title}</h3>
+              <p class="toy-desc">${p.desc}</p>
+            </div>
+          </div>`;
+        }
+        const first = p.media[0];
+        const thumb = first && first.type === 'video'
+          ? `<video src="${first.src}" muted playsinline preload="metadata"></video>`
+          : `<img src="${first ? first.src : ''}" alt="${p.title}">`;
+        return `
+        <div class="toy-card reveal" tabindex="0" role="button" aria-label="View build: ${p.title}" onclick="openModal('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal('${id}')}">
+          <div class="toy-media">
+            ${plateNum(i)}
+            ${statusBadge(p.status)}
+            ${thumb}
+            <span class="view-build"><span>View Build
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span></span>
+          </div>
+          <div class="toy-body">
+            <div class="toy-type">${p.type}</div>
+            <h3>${p.title}</h3>
+            <ul class="toy-specs">
+              <li><span>Base</span>${p.base}</li>
+              <li><span>Scale</span>${p.scale}</li>
+              <li><span>Materials</span>${p.materials}</li>
+            </ul>
+            <p class="toy-desc">${p.desc}</p>
+          </div>
+        </div>`;
+      }).join('');
+      // observe the freshly-rendered cards for scroll reveal
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    }
+
+    /* ---------- Modal / carousel ---------- */
+    let currentSlide = 0;
+    let currentMedia = [];
+
+    function openModal(projectId) {
+      const project = portfolioData[projectId];
+      if (!project) return;
+
+      document.getElementById('modalType').textContent = project.type || '';
+      document.getElementById('modalTitle').textContent = project.title;
+      document.getElementById('modalDesc').textContent = project.desc;
+
+      // Specs
+      const specs = [
+        ['Base', project.base],
+        ['Scale', project.scale],
+        ['Materials', project.materials],
+        ['Status', STATUS_LABEL[project.status] || '']
+      ].filter(r => r[1]);
+      document.getElementById('modalSpecs').innerHTML = specs.map(
+        r => `<div class="ms-row"><span>${r[0]}</span><span class="ms-val">${r[1]}</span></div>`
+      ).join('');
+
+      const carousel = document.getElementById('modalCarousel');
+      carousel.querySelectorAll('img, video').forEach(el => el.remove());
+
+      currentMedia = project.media || [];
+      currentSlide = 0;
+
+      const dotsContainer = document.getElementById('carouselDots');
+      dotsContainer.innerHTML = '';
+
+      if (currentMedia.length === 0) {
+        const ph = document.createElement('img');
+        ph.alt = 'No photos yet';
+        ph.src = 'data:image/svg+xml,' + encodeURIComponent(
+          "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'><rect width='100%' height='100%' fill='%23ece7df'/><text x='50%' y='50%' fill='%239c968b' font-family='sans-serif' font-size='22' text-anchor='middle'>Add photos to this build</text></svg>");
+        ph.classList.add('active');
+        carousel.insertBefore(ph, carousel.querySelector('.carousel-btn.prev'));
+      }
+
+      currentMedia.forEach((item, i) => {
+        let el;
+        if (item.type === 'image') {
+          el = document.createElement('img');
+          el.src = item.src; el.alt = project.title;
+        } else {
+          el = document.createElement('video');
+          el.src = item.src; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+        }
+        if (i === 0) el.classList.add('active');
+        carousel.insertBefore(el, carousel.querySelector('.carousel-btn.prev'));
+
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      const showNav = currentMedia.length > 1;
+      carousel.querySelectorAll('.carousel-btn').forEach(btn => btn.style.display = showNav ? 'block' : 'none');
+
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelectorAll('#modalCarousel video').forEach(v => v.pause());
+    }
+
+    function goToSlide(index) {
+      const carousel = document.getElementById('modalCarousel');
+      const items = carousel.querySelectorAll('img, video');
+      const dots = document.querySelectorAll('#carouselDots span');
+      if (!items.length) return;
+
+      if (items[currentSlide] && items[currentSlide].tagName === 'VIDEO') items[currentSlide].pause();
+      items[currentSlide].classList.remove('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+
+      currentSlide = index;
+      if (currentSlide >= items.length) currentSlide = 0;
+      if (currentSlide < 0) currentSlide = items.length - 1;
+
+      items[currentSlide].classList.add('active');
+      if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
+    function carouselNav(dir) { goToSlide(currentSlide + dir); }
+
+    /* ---------- Nav: hamburger + scrolled state + active link ---------- */
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }));
+
+    const nav = document.getElementById('nav');
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current && !link.classList.contains('nav-cta'));
+      });
+    });
+
+    /* ---------- Keyboard controls ---------- */
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('modal').classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') carouselNav(-1);
+      if (e.key === 'ArrowRight') carouselNav(1);
+    });
+
+    /* ---------- Scroll reveal ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Init ---------- */
+    renderCards();
+  </script>
+</body>
+</html>

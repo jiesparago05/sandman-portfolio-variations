@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SANDMAN — Website Design Variations</title>
+  <meta name="description" content="Four design directions for the Sandman custom toy artist portfolio. Pick your favorite.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f0f11;
+      --surface: #17171a;
+      --text: #ededf0;
+      --muted: #9a9aa3;
+      --accent: #d9a441;
+      --border: rgba(255,255,255,0.09);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #1c1c22 0%, var(--bg) 60%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 22px; }
+
+    header { text-align: center; padding: 70px 22px 30px; }
+    header .kicker {
+      font-family: 'Space Grotesk', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    header h1 b { color: var(--accent); font-weight: 400; }
+    header p { color: var(--muted); max-width: 560px; margin: 0 auto; font-size: 1.02rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px;
+      padding: 40px 0 30px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(217,164,65,0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .shot {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #000;
+      border-bottom: 1px solid var(--border);
+    }
+    .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.5s ease; display: block; }
+    .card:hover .shot img { transform: scale(1.04); }
+    .vnum {
+      position: absolute; top: 12px; left: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      color: #fff; padding: 6px 12px; border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+    .body h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .body p { color: var(--muted); font-size: 0.93rem; margin-bottom: 22px; flex: 1; }
+    .btn {
+      align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+      font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #14110d; background: var(--accent);
+      padding: 12px 24px; border-radius: 6px; text-decoration: none;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .btn:hover { background: #f0c674; transform: translateX(3px); }
+    .btn svg { width: 15px; height: 15px; }
+
+    .note {
+      text-align: center; color: var(--muted); font-size: 0.86rem;
+      padding: 20px 22px 70px; max-width: 640px; margin: 0 auto;
+    }
+    .note code { color: var(--accent); background: rgba(217,164,65,0.1); padding: 2px 7px; border-radius: 4px; font-size: 0.85em; }
+
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="kicker">Sandman · Custom Toy Artist</div>
+    <h1>Website <b>Design Variations</b></h1>
+    <p>Four directions for the Sandman portfolio — same content, four different moods. Open each live site and pick the one that fits the brand best.</p>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+
+      <!-- V1 — Dark Cinematic (lives in the main repo) -->
+      <article class="card">
+        <div class="shot"><span class="vnum">Variation 1</span><img src="previews/v1-dark.png" alt="Dark cinematic amber/gold design"></div>
+        <div class="body">
+          <div class="tag">Dark · Cinematic · Collector</div>
+          <h2>Cinematic Amber</h2>
+          <p>Premium dark theme — warm amber/gold on near-black with film-grain texture. Moody, high-end, collector-focused.</p>
+          <a class="btn" href="https://jiesparago05.github.io/sandman-portfolio/" target="_blank" rel="noopener">View Live Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <!-- V2 — Gallery / Editorial -->
+      <article class="card">
+        <div class="shot"><span class="vnum">Variation 2</span><img src="previews/v2-gallery.png" alt="Light gallery editorial design"></div>
+        <div class="body">
+          <div class="tag">Light · Editorial · Premium</div>
+          <h2>Gallery Editorial</h2>
+          <p>Light, airy museum-catalog look — elegant serif headlines, big photography, generous whitespace. Calm and sophisticated.</p>
+          <a class="btn" href="gallery/" target="_blank" rel="noopener">View Live Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <!-- V3 — Urban Vinyl / Street -->
+      <article class="card">
+        <div class="shot"><span class="vnum">Variation 3</span><img src="previews/v3-urban.png" alt="Urban vinyl street art design"></div>
+        <div class="body">
+          <div class="tag">Bold · Street · Art-Toy</div>
+          <h2>Urban Vinyl</h2>
+          <p>High-energy streetwear/art-toy drop vibe — neon accents, chunky type, sticker shadows, scrolling marquee. Loud and playful.</p>
+          <a class="btn" href="urban/" target="_blank" rel="noopener">View Live Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <!-- V4 — Industrial / Blueprint -->
+      <article class="card">
+        <div class="shot"><span class="vnum">Variation 4</span><img src="previews/v4-industrial.png" alt="Industrial workshop blueprint design"></div>
+        <div class="body">
+          <div class="tag">Technical · Workshop · Blueprint</div>
+          <h2>Industrial Blueprint</h2>
+          <p>Raw maker's-workshop feel — concrete grays, safety-orange accent, blueprint grid, monospace spec sheets and part numbers.</p>
+          <a class="btn" href="industrial/" target="_blank" rel="noopener">View Live Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <p class="note">All four share the same projects, copy, and commission flow — only the visual design differs. Each is a single self-contained HTML file; editing notes live inside each <code>index.html</code> (look for the <code>EDIT ME</code> guide).</p>
+</body>
+</html>
